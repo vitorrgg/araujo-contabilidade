@@ -1,31 +1,43 @@
 ---
 import Layout from '~/layouts/Layout.astro';
-import Hero from '~/components/Hero.astro';
-import PainPoints from '~/components/PainPoints.astro';
-import Audience from '~/components/Audience.astro';
-import Services from '~/components/Services.astro';
-import HowItWorks from '~/components/HowItWorks.astro';
-import Plans from '~/components/Plans.astro';
-import Comparison from '~/components/Comparison.astro';
-import FaqSection from '~/components/FaqSection.astro';
-import FinalCta from '~/components/FinalCta.astro';
+import HomeHero from '~/components/home/HomeHero.astro';
+import Pillars from '~/components/home/Pillars.astro';
+import Differentials from '~/components/home/Differentials.astro';
+import PjFront from '~/components/home/PjFront.astro';
+import ContactSection from '~/components/home/ContactSection.astro';
 import { site, whatsapp } from '~/config/site';
 
 /*
- * Ordem das seções = ordem do argumento de venda:
- * promessa → dor → "isso é pra mim" → o que resolve → como é na prática →
- * quanto custa → por que é mais barato → objeções → chamada.
+ * Home institucional. Sem preço, de propósito: a home tem que sustentar tanto
+ * o PJ que veio do anúncio quanto a empresa que está avaliando due diligence.
+ * Preço vive só em /pj.
+ *
+ * Ordem: quem somos e pra quem (hero rotativo) → o que fazemos (3 pilares) →
+ * por que nós → a oferta de entrada (PJ) → contato.
  */
 const businessSchema = {
   '@context': 'https://schema.org',
   '@type': 'AccountingService',
   name: site.name,
+  legalName: site.legalName,
   description: site.description,
   url: site.url,
   email: site.email,
   telephone: `+${whatsapp.number}`,
   areaServed: 'BR',
-  address: { '@type': 'PostalAddress', addressLocality: site.city, addressCountry: 'BR' },
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: site.city,
+    addressCountry: 'BR',
+  },
+  knowsAbout: [
+    'Assessoria contábil e fiscal',
+    'Departamento pessoal',
+    'Abertura e legalização de empresas',
+    'Due diligence contábil',
+    'Projeções financeiras',
+    'Contabilidade para PJ',
+  ],
 };
 ---
 
@@ -36,13 +48,9 @@ const businessSchema = {
     is:inline
     set:html={JSON.stringify(businessSchema)}
   />
-  <Hero />
-  <PainPoints />
-  <Audience />
-  <Services />
-  <HowItWorks />
-  <Plans />
-  <Comparison />
-  <FaqSection />
-  <FinalCta />
+  <HomeHero />
+  <Pillars />
+  <Differentials />
+  <PjFront />
+  <ContactSection />
 </Layout>

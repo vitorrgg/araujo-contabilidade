@@ -36,22 +36,22 @@ const functionalUse = [
     detail: 'Fundo padrão de site, apresentação e material impresso.',
   },
   {
-    token: 'Grafite',
+    token: 'Azul-Marinho',
     hex: tokens['brand-ink'],
     role: 'Títulos e blocos em destaque',
     detail: 'Texto de título, rodapé, cartão de visita e faixas de destaque.',
   },
   {
-    token: 'Verde Esmeralda',
+    token: 'Azul Institucional',
     hex: tokens['brand-primary'],
     role: 'Botões, links e detalhes',
     detail: 'Toda ação clicável e todo detalhe que precisa puxar o olho.',
   },
   {
-    token: 'Verde Menta',
+    token: 'Dourado',
     hex: tokens['brand-accent'],
-    role: 'Realce sobre fundo escuro',
-    detail: 'Substitui o verde esmeralda quando o fundo é grafite.',
+    role: 'Fios, molduras e realce',
+    detail: 'A camada de elegância da marca. Sobre fundo claro, só na variação escura.',
   },
 ];
 ---
@@ -79,7 +79,7 @@ const functionalUse = [
           </p>
         </div>
         <div class="flex justify-center lg:justify-end">
-          <Logo variant="negative" layout="stacked" size={110} />
+          <Logo variant="negative" layout="stacked" size={110} withTagline />
         </div>
       </div>
     </div>
@@ -120,19 +120,21 @@ const functionalUse = [
         </h3>
         <ul class="mt-5 space-y-4 text-[0.95rem] leading-relaxed brand-ink-soft">
           <li>
-            <strong class="brand-ink">Competência sem formalidade vazia.</strong>{' '}
-            É contabilidade séria, mas falando a língua de quem trabalha como
-            PJ — não a de quem tem departamento financeiro.
+            <strong class="brand-ink">Autoridade técnica.</strong>{' '}
+            A gccont assina demonstrativo que vai ser lido por banco, investidor
+            e advogado da outra parte. A identidade precisa sustentar isso —
+            daí o azul-marinho e a serifada.
           </li>
           <li>
-            <strong class="brand-ink">Agilidade.</strong>{' '}
-            A promessa central é resolver rápido, com o cliente no controle.
-            Nada na identidade pode parecer burocrático ou pesado.
+            <strong class="brand-ink">Amplitude.</strong>{' '}
+            É um escritório completo, não um serviço só. Nada na comunicação
+            pode dar a impressão de que a casa só atende o PJ que emite nota,
+            mesmo quando é essa a frente sendo anunciada.
           </li>
           <li>
-            <strong class="brand-ink">Transparência.</strong>{' '}
-            Preço claro, sem letra miúda. A comunicação evita ornamento e vai
-            direto ao ponto.
+            <strong class="brand-ink">Acesso direto.</strong>{' '}
+            O contraponto da elegância: quem contrata fala com quem executa.
+            A comunicação evita ornamento verbal e vai direto ao ponto.
           </li>
         </ul>
       </aside>
@@ -143,7 +145,7 @@ const functionalUse = [
   <ManualSection
     index="02"
     title="A assinatura"
-    lead="A assinatura combina o símbolo (o “A” em caixa grafite, com a barra em verde) e o logotipo em duas linhas: o nome e a linha de apoio."
+    lead="A assinatura combina o emblema (monograma “gc” dourado sobre azul-marinho, dentro de um fio dourado) e o logotipo “gccont”, onde as iniciais vêm em peso alto e a atividade em peso leve."
     surface="alt"
   >
     <div class="grid gap-8 lg:grid-cols-[1.1fr_1fr]">
@@ -157,11 +159,11 @@ const functionalUse = [
         <div>
           <h3 class="brand-ink font-semibold">Construção</h3>
           <p class="brand-ink-soft mt-2 text-[0.95rem] leading-relaxed">
-            O símbolo ocupa um quadrado com cantos arredondados. A barra
-            horizontal do “A” é o único elemento em verde — é ela que carrega a
-            cor primária e permite que a marca seja reconhecida mesmo reduzida.
-            A linha de apoio “Contabilidade” usa espacejamento aberto para
-            equilibrar a massa do nome.
+            O emblema é um quadrado de canto curto, em azul-marinho, com um fio
+            dourado interno recuado e o monograma “gc” centralizado. No logotipo,
+            “gc” vem em peso 700 e “cont” em 400 — a mesma lógica do nome:
+            as iniciais e a atividade. A linha de apoio, quando usada, entra em
+            caixa alta com espacejamento aberto para equilibrar a massa serifada.
           </p>
         </div>
         <div>
@@ -215,7 +217,7 @@ const functionalUse = [
       <LogoVariant
         variant="negative"
         label="Logomarca negativa"
-        usage="Sobre fundo grafite ou foto escura, com contraste suficiente."
+        usage="Sobre azul-marinho ou foto escura, com contraste suficiente."
       />
       <LogoVariant
         variant="negative-mono"
@@ -255,7 +257,7 @@ const functionalUse = [
   <ManualSection
     index="05"
     title="Cores institucionais"
-    lead="São as cores primárias da identidade. O par grafite + verde dá versatilidade à marca sem descaracterizar o segmento: sobriedade de quem cuida de dinheiro dos outros, com um verde que sinaliza movimento e não banco tradicional."
+    lead="São as cores primárias da identidade. O azul-marinho carrega a autoridade que o segmento exige; o dourado entra em dose pequena — fio, moldura, numeração — e é ele que separa a marca de um escritório genérico. O azul institucional fica com a função de ação: botão e link."
   >
     <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
       {institutionalColors.map((color) => <ColorSwatch {...color} />)}
@@ -325,16 +327,16 @@ const functionalUse = [
             Sua nota fiscal em um clique
           </h3>
           <p class="brand-ink-soft mt-3 text-sm leading-relaxed">
-            Texto corrido em grafite suave, sobre o branco institucional.
+            Texto corrido em azul-marinho suave, sobre o branco institucional.
             O <a href="#" class="brand-text-primary font-medium underline">link
-            aparece em verde</a>, assim como o botão.
+            aparece em azul</a>, assim como o botão.
           </p>
           <span class="brand-btn ui-btn-sm mt-5">Falar no WhatsApp</span>
         </div>
         <div class="brand-surface-ink p-7">
           <p class="brand-eyebrow text-xs">Bloco em destaque</p>
           <h3 class="brand-display mt-2 text-2xl font-bold leading-tight text-white">
-            Sobre grafite, o realce vira verde menta
+            Sobre azul-marinho, o realce vira dourado
           </h3>
           <span class="brand-btn ui-btn-sm mt-5">O botão inverte</span>
         </div>
@@ -399,14 +401,14 @@ const functionalUse = [
         <p class="brand-eyebrow text-xs">Hierarquia</p>
         <h3 class="brand-ink mt-2 font-semibold">Títulos</h3>
         <p class="brand-ink-soft mt-1 text-sm leading-relaxed">
-          Sora Bold, entrelinha curta e espacejamento negativo (-0,02em).
+          Playfair Display Bold, entrelinha curta e tracking quase neutro.
         </p>
       </div>
       <div>
         <p class="brand-eyebrow text-xs">Hierarquia</p>
         <h3 class="brand-ink mt-2 font-semibold">Subtítulos e números</h3>
         <p class="brand-ink-soft mt-1 text-sm leading-relaxed">
-          Sora SemiBold. Valores, alíquotas e preços sempre nesta família.
+          Playfair Display Medium. É também o peso do logotipo.
         </p>
       </div>
       <div>

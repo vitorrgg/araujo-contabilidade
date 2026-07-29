@@ -1,7 +1,9 @@
 ---
 import SectionHeading from '~/components/SectionHeading.astro';
-import Faq from '~/components/Faq.vue';
-import { faq } from '~/config/site';
+import Faq from '~/components/pj/Faq.vue';
+import { pj } from "~/config/site";
+
+const faq = pj.faq;
 
 /*
  * O acordeão é uma island Vue, mas as perguntas também vão em JSON-LD:

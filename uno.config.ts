@@ -30,6 +30,7 @@ export default defineConfig({
     colors: {
       ink: { ...palette.ink, DEFAULT: palette.ink[900] },
       primary: { ...palette.primary, DEFAULT: palette.primary[600] },
+      accent: { ...palette.accent, DEFAULT: palette.accent[500] },
     },
     fontFamily: {
       sans: 'var(--brand-font-sans)',
@@ -43,6 +44,8 @@ export default defineConfig({
     'i-lucide-briefcase', 'i-lucide-stethoscope', 'i-lucide-rocket',
     'i-lucide-repeat', 'i-lucide-file-check', 'i-lucide-calendar-check',
     'i-lucide-wallet', 'i-lucide-calculator', 'i-lucide-user-check',
-    'i-lucide-message-square-more',
+    'i-lucide-message-square-more', 'i-lucide-book-open-check', 'i-lucide-users',
+    'i-lucide-line-chart', 'i-lucide-building-2', 'i-lucide-trending-up',
+    'i-lucide-shield-check',
   ],
 });

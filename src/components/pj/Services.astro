@@ -1,13 +1,19 @@
 ---
 import SectionHeading from '~/components/SectionHeading.astro';
-import { painPoints } from '~/config/site';
+import { pj } from "~/config/site";
+
+const services = pj.services;
 ---
 
-<section class="brand-surface-alt ui-block">
+<section id="servicos" class="brand-surface-alt ui-block scroll-mt-24">
   <div class="ui-section">
-    <SectionHeading title={painPoints.title} />
+    <SectionHeading
+      eyebrow={services.eyebrow}
+      title={services.title}
+      lead={services.lead}
+    />
     <div class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-      {painPoints.items.map(({ icon, title, text }) => (
+      {services.items.map(({ icon, title, text }) => (
         <article class="brand-card p-6">
           <span class="ui-icon-box" aria-hidden="true">
             <span class={icon}></span>

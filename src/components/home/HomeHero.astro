@@ -1,0 +1,70 @@
+---
+import HeroRotator from '~/components/home/HeroRotator.vue';
+import { heroRotator, waLink } from '~/config/site';
+
+/*
+ * Hero da home: rotativo à esquerda, foto à direita.
+ * A island é `client:load` (e não `visible`/`idle`) porque é o primeiro
+ * elemento da página — carregar depois deixaria o hero estático por um
+ * instante justamente onde o visitante decide se fica.
+ */
+---
+
+<section class="relative overflow-hidden brand-surface">
+  <div
+    class="pointer-events-none absolute -right-32 -top-48 -z-10 size-[42rem]
+    rounded-full opacity-70 blur-3xl brand-surface-soft"
+    aria-hidden="true"
+  >
+  </div>
+
+  <div class="ui-section pb-16 pt-14 md:pb-24 md:pt-20">
+    <div class="grid items-center gap-12 lg:grid-cols-[1.05fr_1fr] lg:gap-16">
+      <HeroRotator
+        client:load
+        eyebrow={heroRotator.eyebrow}
+        titlePrefix={heroRotator.titlePrefix}
+        items={heroRotator.items}
+        ctaLabel={heroRotator.ctaLabel}
+        waHref={waLink()}
+      />
+
+      <div class="relative order-first lg:order-none">
+        <!-- Moldura dourada deslocada: é o gesto de marca que separa a foto de
+             banco de imagem do resto do site. -->
+        <span
+          class="pointer-events-none absolute -bottom-4 -right-4 hidden size-full
+          border sm:block"
+          style="border-color: var(--brand-accent);
+            border-radius: var(--brand-radius)"
+          aria-hidden="true"
+        ></span>
+        <img
+          src="/img/hero-home.jpg"
+          alt="Reunião de trabalho ao redor de uma mesa, com anotações e documentos"
+          width="1600"
+          height="1067"
+          loading="eager"
+          fetchpriority="high"
+          class="relative aspect-[4/3] w-full object-cover lg:aspect-[5/4]"
+          style="border-radius: var(--brand-radius)"
+        />
+      </div>
+    </div>
+
+    <ul
+      class="brand-divider mt-14 grid gap-4 pt-8 text-[0.95rem] brand-ink-soft
+      sm:grid-cols-3"
+    >
+      {heroRotator.proofs.map((proof) => (
+        <li class="flex items-start gap-2.5">
+          <span
+            class="i-lucide-check brand-text-accent mt-0.5 shrink-0"
+            aria-hidden="true"
+          ></span>
+          {proof}
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>

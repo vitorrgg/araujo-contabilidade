@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /marca
 
-Sitemap: https://araujocontabilidade.com.br/sitemap-index.xml
+Sitemap: https://gccont.com.br/sitemap-index.xml

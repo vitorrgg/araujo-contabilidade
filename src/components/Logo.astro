@@ -1,13 +1,17 @@
 ---
 /*
- * Assinatura da marca.
+ * Assinatura da marca gccont.
  *
- * As 4 variações previstas no manual saem todas deste componente — nunca de
- * arquivos de imagem separados, que é como uma identidade começa a divergir.
+ * Construção: emblema quadrado (azul-marinho, com fio dourado interno e o
+ * monograma "gc" em dourado) + logotipo "gccont", onde "gc" vem em peso alto e
+ * "cont" em peso leve — a mesma lógica do nome: as iniciais e a atividade.
+ *
+ * As 4 variações previstas no manual saem todas deste componente, nunca de
+ * arquivos de imagem separados — que é como uma identidade começa a divergir.
  * Cores vêm dos tokens `--brand-*`, então a assinatura acompanha a paleta.
  *
  *   default        → colorida, para fundo claro
- *   mono           → monocromática, para fundo claro (1 cor, fax/carimbo/gravação)
+ *   mono           → monocromática, para fundo claro (1 cor: carimbo, gravação)
  *   negative       → colorida, para fundo escuro
  *   negative-mono  → monocromática, para fundo escuro
  */
@@ -16,10 +20,12 @@ import { site } from '~/config/site';
 export type Props = {
   variant?: 'default' | 'mono' | 'negative' | 'negative-mono';
   layout?: 'inline' | 'stacked';
-  /** Altura do símbolo em px; o texto escala junto. */
+  /** Altura do emblema em px; o logotipo escala junto. */
   size?: number;
-  /** Só o símbolo, sem o logotipo (avatar, favicon, selo). */
+  /** Só o emblema, sem o logotipo (avatar, favicon, selo). */
   symbolOnly?: boolean;
+  /** Linha de apoio sob o logotipo. */
+  withTagline?: boolean;
   as?: 'div' | 'h1' | 'h2';
   class?: string;
 };
@@ -29,24 +35,37 @@ const {
   layout = 'inline',
   size = 40,
   symbolOnly = false,
+  withTagline = false,
   as: Tag = 'div',
   class: className = '',
 } = Astro.props;
 
 const isNegative = variant === 'negative' || variant === 'negative-mono';
 const isMono = variant === 'mono' || variant === 'negative-mono';
+const isStacked = layout === 'stacked';
 
-// Em negativo, o símbolo inverte: fundo claro com a letra em grafite.
-const boxFill = isNegative ? 'var(--brand-primary-contrast)' : 'var(--brand-ink)';
-const letterFill = isNegative ? 'var(--brand-ink)' : 'var(--brand-primary-contrast)';
-const barFill = isMono ? letterFill : 'var(--brand-primary)';
-const textColor = isNegative
+/*
+ * Em negativo o emblema não inverte para um selo branco — ele perde o fundo e
+ * fica só o fio e o monograma. Sobre azul-marinho isso mantém o dourado em 5,6:1
+ * e é bem mais elegante que um retângulo branco chapado no meio do bloco.
+ * A versão monocromática é a que abre mão do dourado.
+ */
+const emblemBg = isNegative ? 'transparent' : 'var(--brand-ink)';
+const emblemMark = (() => {
+  if (variant === 'default') return 'var(--brand-accent)';
+  if (variant === 'mono') return 'var(--brand-primary-contrast)';
+  if (variant === 'negative') return 'var(--brand-accent)';
+  return 'var(--brand-primary-contrast)';
+})();
+const wordmarkColor = isNegative
   ? 'var(--brand-primary-contrast)'
   : 'var(--brand-ink)';
+const taglineColor = isNegative
+  ? 'var(--brand-on-ink-muted)'
+  : 'var(--brand-ink-muted)';
 
-const isStacked = layout === 'stacked';
-const nameSize = size * (isStacked ? 0.62 : 0.5);
-const taglineSize = Math.max(nameSize * 0.32, 7);
+const wordSize = size * (isStacked ? 0.58 : 0.5);
+const taglineSize = Math.max(wordSize * 0.26, 6.5);
 ---
 
 <Tag
@@ -55,55 +74,52 @@ const taglineSize = Math.max(nameSize * 0.32, 7);
     isStacked ? 'flex-col gap-3 text-center' : 'gap-3',
     className,
   ]}
-  style={`color: ${textColor}`}
+  aria-label={site.name}
 >
-  <svg
-    width={size}
-    height={size}
-    viewBox="0 0 44 44"
-    role="img"
-    aria-label={site.name}
-    class="shrink-0"
+  <span
+    class="relative inline-flex shrink-0 items-center justify-center"
+    style={`width: ${size}px; height: ${size}px; background-color: ${emblemBg};
+      border-radius: ${Math.round(size * 0.16)}px`}
+    aria-hidden="true"
   >
-    <rect width="44" height="44" rx="11" fill={boxFill} />
-    <path
-      d="M12 32 L22 12 L32 32"
-      fill="none"
-      stroke={letterFill}
-      stroke-width="3.4"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    />
-    <path
-      d="M16.6 25.4 H27.4"
-      fill="none"
-      stroke={barFill}
-      stroke-width="3.4"
-      stroke-linecap="round"
-    />
-  </svg>
+    <!-- Fio dourado interno: é o detalhe que dá o tom "escritório", e o
+         primeiro elemento a cair na versão monocromática. -->
+    <span
+      class="pointer-events-none absolute"
+      style={`inset: ${Math.max(size * 0.075, 2)}px;
+        border: 1px solid ${emblemMark};
+        border-radius: ${Math.round(size * 0.1)}px;
+        opacity: ${isNegative ? 0.85 : 0.7}`}
+    ></span>
+    <span
+      class="brand-display relative"
+      style={`color: ${emblemMark}; font-size: ${size * 0.46}px;
+        font-weight: 700; letter-spacing: -0.03em; line-height: 1`}
+    >gc</span>
+  </span>
+
   {!symbolOnly && (
     <span
       class:list={[
-        'flex flex-col justify-center gap-[0.22em]',
+        'flex flex-col justify-center gap-[0.3em]',
         isStacked && 'items-center',
       ]}
     >
       <span
-        class="brand-display font-bold uppercase leading-none"
-        style={`font-size: ${nameSize}px; letter-spacing: -0.01em`}
-      >
-        Araujo
-      </span>
-      <span
-        class="font-semibold uppercase leading-none"
-        style={`font-size: ${taglineSize}px; letter-spacing: 0.24em;` +
-          ` color: ${isNegative
-            ? 'var(--brand-on-ink-muted)'
-            : 'var(--brand-ink-soft)'}`}
-      >
-        Contabilidade
-      </span>
+        class="brand-display leading-none"
+        style={`font-size: ${wordSize}px; color: ${wordmarkColor};
+          letter-spacing: -0.015em`}
+      ><span style="font-weight: 700">gc</span><span
+        style="font-weight: 400">cont</span></span>
+      {withTagline && (
+        <span
+          class="font-semibold uppercase leading-none"
+          style={`font-size: ${taglineSize}px; letter-spacing: 0.22em;
+            color: ${taglineColor}`}
+        >
+          Contabilidade e consultoria
+        </span>
+      )}
     </span>
   )}
 </Tag>

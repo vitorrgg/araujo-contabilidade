@@ -1,0 +1,72 @@
+---
+import SectionHeading from '~/components/SectionHeading.astro';
+import { pillars } from '~/config/site';
+
+/*
+ * Os três pilares de serviço — o bloco que impede o site de parecer que a
+ * gccont só faz contabilidade de PJ. Sem preço aqui, de propósito.
+ */
+---
+
+<section id="servicos" class="brand-surface-alt ui-block scroll-mt-24">
+  <div class="ui-section">
+    <SectionHeading
+      eyebrow={pillars.eyebrow}
+      title={pillars.title}
+      lead={pillars.lead}
+    />
+
+    <div class="mt-14 grid gap-6 lg:grid-cols-3">
+      {pillars.items.map(({
+        id, icon, title, text, image, imageAlt, highlights,
+      }) => (
+        <article class="brand-card flex flex-col overflow-hidden">
+          <img
+            src={image}
+            alt={imageAlt}
+            width="900"
+            height="600"
+            loading="lazy"
+            class="aspect-[16/10] w-full object-cover"
+          />
+          <div class="flex flex-1 flex-col p-6 md:p-7">
+            <span class="ui-icon-box" aria-hidden="true">
+              <span class={icon}></span>
+            </span>
+            <h3 class="brand-display brand-ink mt-5 text-xl font-bold">
+              {title}
+            </h3>
+            <p class="brand-ink-soft mt-2.5 text-[0.95rem] leading-relaxed">
+              {text}
+            </p>
+            <ul class="mt-5 flex-1 space-y-2">
+              {highlights.map((item) => (
+                <li class="flex items-start gap-2.5 text-[0.9rem] brand-ink-soft">
+                  <span
+                    class="i-lucide-check brand-text-accent mt-0.5 shrink-0"
+                    aria-hidden="true"
+                  ></span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <a
+              href={`/servicos#${id}`}
+              class="brand-link mt-6 inline-flex items-center gap-1.5 text-sm
+              font-semibold"
+            >
+              Detalhar esta frente
+              <span class="i-lucide-arrow-right" aria-hidden="true"></span>
+            </a>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <div class="mt-10 text-center">
+      <a href={pillars.ctaHref} class="brand-btn-ghost ui-btn">
+        {pillars.ctaLabel}
+      </a>
+    </div>
+  </div>
+</section>

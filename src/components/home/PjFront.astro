@@ -1,0 +1,55 @@
+---
+import { pjFront } from '~/config/site';
+
+/*
+ * A ponte entre o institucional e a frente de aquisição. Fica depois dos
+ * pilares de propósito: primeiro o visitante entende que a gccont é um
+ * escritório completo, só então recebe a oferta de entrada.
+ */
+---
+
+<section class="brand-surface ui-block">
+  <div class="ui-section">
+    <div class="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
+      <div class="relative">
+        <span
+          class="pointer-events-none absolute -bottom-4 -left-4 hidden size-full
+          border sm:block"
+          style="border-color: var(--brand-accent);
+            border-radius: var(--brand-radius)"
+          aria-hidden="true"
+        ></span>
+        <img
+          src={pjFront.image}
+          alt={pjFront.imageAlt}
+          width="1200"
+          height="800"
+          loading="lazy"
+          class="relative aspect-[3/2] w-full object-cover"
+          style="border-radius: var(--brand-radius)"
+        />
+      </div>
+
+      <div>
+        <p class="brand-eyebrow text-sm">{pjFront.eyebrow}</p>
+        <h2 class="ui-title mt-4">{pjFront.title}</h2>
+        <p class="ui-lead">{pjFront.lead}</p>
+        <ul class="mt-7 space-y-3">
+          {pjFront.bullets.map((bullet) => (
+            <li class="flex items-start gap-2.5 text-[0.95rem] brand-ink-soft">
+              <span
+                class="i-lucide-check brand-text-accent mt-0.5 shrink-0"
+                aria-hidden="true"
+              ></span>
+              {bullet}
+            </li>
+          ))}
+        </ul>
+        <a href={pjFront.ctaHref} class="brand-btn ui-btn mt-9">
+          {pjFront.ctaLabel}
+          <span class="i-lucide-arrow-right" aria-hidden="true"></span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

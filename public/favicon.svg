@@ -1,7 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 44 44">
-  <rect width="44" height="44" rx="11" fill="#1B2430"/>
-  <path d="M12 32 L22 12 L32 32" fill="none" stroke="#FFFFFF" stroke-width="3.4"
-    stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M16.6 25.4 H27.4" fill="none" stroke="#0E9F6E" stroke-width="3.4"
-    stroke-linecap="round"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+  <rect width="48" height="48" rx="8" fill="#132038"/>
+  <rect x="3.5" y="3.5" width="41" height="41" rx="5" fill="none"
+    stroke="#C1922B" stroke-opacity="0.75"/>
+  <text x="24" y="24" fill="#C1922B" font-family="'Playfair Display',Georgia,serif"
+    font-size="22" font-weight="700" letter-spacing="-0.7"
+    text-anchor="middle" dominant-baseline="central">gc</text>
 </svg>

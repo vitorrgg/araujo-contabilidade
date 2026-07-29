@@ -1,6 +1,6 @@
 ---
 import Logo from '~/components/Logo.astro';
-import { site, nav, waLink } from '~/config/site';
+import { site, servicesPage, waLink } from '~/config/site';
 
 const year = new Date().getFullYear();
 ---
@@ -9,24 +9,29 @@ const year = new Date().getFullYear();
   <div class="ui-section">
     <div class="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr]">
       <div>
-        <Logo variant="negative" size={42} />
-        <p class="brand-ink-soft mt-5 max-w-sm text-[0.95rem] leading-relaxed">
+        <Logo variant="negative" size={44} withTagline />
+        <p class="brand-ink-soft mt-6 max-w-sm text-[0.95rem] leading-relaxed">
           {site.description}
         </p>
       </div>
 
-      <nav aria-label="Rodapé">
+      <nav aria-label="Serviços">
         <h2 class="text-sm font-semibold uppercase tracking-wider">
-          Navegação
+          Serviços
         </h2>
         <ul class="mt-4 space-y-2.5">
-          {nav.map(({ label, href }) => (
+          {servicesPage.groups.map(({ id, title }) => (
             <li>
-              <a href={href} class="brand-link text-[0.95rem]">
-                {label}
+              <a href={`/servicos#${id}`} class="brand-link text-[0.95rem]">
+                {title}
               </a>
             </li>
           ))}
+          <li>
+            <a href="/pj" class="brand-link text-[0.95rem]">
+              Contabilidade para PJ
+            </a>
+          </li>
         </ul>
       </nav>
 
@@ -78,7 +83,7 @@ const year = new Date().getFullYear();
       class="brand-divider mt-12 flex flex-col gap-2 pt-6 text-sm
       brand-ink-soft sm:flex-row sm:items-center sm:justify-between"
     >
-      <p>© {year} {site.name} · {site.crc}</p>
+      <p>© {year} {site.legalName} · {site.crc}</p>
       <a href="/marca" class="brand-link">Manual de identidade visual</a>
     </div>
   </div>

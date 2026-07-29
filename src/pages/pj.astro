@@ -1,0 +1,39 @@
+---
+import Layout from '~/layouts/Layout.astro';
+import Hero from '~/components/pj/Hero.astro';
+import PainPoints from '~/components/pj/PainPoints.astro';
+import Audience from '~/components/pj/Audience.astro';
+import Services from '~/components/pj/Services.astro';
+import HowItWorks from '~/components/pj/HowItWorks.astro';
+import Plans from '~/components/pj/Plans.astro';
+import Comparison from '~/components/pj/Comparison.astro';
+import FaqSection from '~/components/pj/FaqSection.astro';
+import FinalCta from '~/components/pj/FinalCta.astro';
+import { site } from '~/config/site';
+
+/*
+ * Landing de aquisição da frente de PJ — é aqui, e só aqui, que preço aparece.
+ * É também o destino dos anúncios e do primeiro estado do hero rotativo da home.
+ *
+ * Ordem = ordem do argumento de venda: promessa → dor → "isso é pra mim" →
+ * o que resolve → como é na prática → quanto custa → por que é mais barato →
+ * objeções → chamada.
+ */
+---
+
+<Layout
+  title={`Contabilidade para PJ · ${site.name}`}
+  description="Contabilidade para quem trabalha como PJ: abertura de CNPJ,
+    Simples Nacional e obrigações do mês, com nota fiscal emitida por você em um
+    clique e sem taxa por emissão."
+>
+  <Hero />
+  <PainPoints />
+  <Audience />
+  <Services />
+  <HowItWorks />
+  <Plans />
+  <Comparison />
+  <FaqSection />
+  <FinalCta />
+</Layout>

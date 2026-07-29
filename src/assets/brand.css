@@ -29,16 +29,30 @@
 .brand-text-primary { color: var(--brand-primary); }
 .brand-display {
   font-family: var(--brand-font-display);
-  letter-spacing: -0.02em;
+  /* Serifada de alto contraste pede tracking quase neutro — o negativo forte
+     que uma sans aceita aqui fecha demais os serifas. */
+  letter-spacing: -0.01em;
 }
+/* O dourado é a camada de elegância: aparece em rótulo, fio e numeração —
+   nunca em texto corrido. Sobre claro usa o tom escuro (AA), sobre
+   azul-marinho usa o dourado cheio. */
 .brand-eyebrow {
-  color: var(--brand-primary);
+  color: var(--brand-accent-strong);
   text-transform: uppercase;
-  letter-spacing: 0.09em;
+  letter-spacing: 0.14em;
   font-weight: 600;
 }
-/* Sobre fundo escuro a cor primária perde contraste — sobe pro tom de apoio. */
+.brand-text-accent { color: var(--brand-accent-strong); }
+/* Fio dourado: o detalhe que assina a marca em bloco de texto e cabeçalho. */
+.brand-rule {
+  display: block;
+  width: 2.5rem;
+  height: 2px;
+  background-color: var(--brand-accent);
+}
 .brand-surface-ink .brand-eyebrow,
+.brand-surface-ink .brand-text-accent { color: var(--brand-accent); }
+/* Sobre fundo escuro a cor primária perde contraste — vira o dourado. */
 .brand-surface-ink .brand-text-primary { color: var(--brand-accent); }
 .brand-surface-ink .brand-ink { color: var(--brand-primary-contrast); }
 .brand-surface-ink .brand-ink-soft { color: var(--brand-on-ink-soft); }

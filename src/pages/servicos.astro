@@ -1,0 +1,137 @@
+---
+import Layout from '~/layouts/Layout.astro';
+import ContactSection from '~/components/home/ContactSection.astro';
+import { servicesPage, site, pjFront } from '~/config/site';
+
+/*
+ * Catálogo completo. As âncoras (#contabil, #pessoal, #legalizacao,
+ * #consultoria) são destino do menu, dos cards da home e do hero rotativo —
+ * não renomeie sem procurar as referências.
+ *
+ * Grupos alternam a superfície (branco / azul névoa) pra dar ritmo numa página
+ * que é, por natureza, uma lista longa.
+ */
+---
+
+<Layout
+  title={`Serviços · ${site.name}`}
+  description={servicesPage.lead}
+>
+  <!-- Cabeçalho da página -->
+  <section class="brand-surface-ink ui-block">
+    <div class="ui-section">
+      <div class="max-w-3xl">
+        <p class="brand-eyebrow text-sm">{servicesPage.eyebrow}</p>
+        <span class="brand-rule mt-5"></span>
+        <h1 class="ui-title-lg mt-5">{servicesPage.title}</h1>
+        <p class="ui-lead">{servicesPage.lead}</p>
+      </div>
+
+      <!-- Sumário: numa página longa, é o que evita rolagem às cegas. -->
+      <nav class="brand-divider mt-12 pt-8" aria-label="Frentes de serviço">
+        <ul class="grid gap-x-8 gap-y-3 sm:grid-cols-2 lg:grid-cols-4">
+          {servicesPage.groups.map(({ id, icon, title }, index) => (
+            <li>
+              <a
+                href={`#${id}`}
+                class="brand-link flex items-start gap-3 text-[0.95rem]
+                font-medium"
+              >
+                <span
+                  class="brand-text-accent font-mono text-xs leading-6"
+                  aria-hidden="true"
+                >
+                  {String(index + 1).padStart(2, '0')}
+                </span>
+                <span class="flex items-center gap-2">
+                  <span class={icon} aria-hidden="true"></span>
+                  {title}
+                </span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </div>
+  </section>
+
+  {servicesPage.groups.map((group, index) => (
+    <section
+      id={group.id}
+      class:list={[
+        'ui-block scroll-mt-24',
+        index % 2 === 0 ? 'brand-surface' : 'brand-surface-alt',
+      ]}
+    >
+      <div class="ui-section">
+        <div class="grid gap-10 lg:grid-cols-[1fr_1.35fr] lg:gap-16">
+          <header class="lg:sticky lg:top-28 lg:self-start">
+            <p
+              class="brand-text-accent font-mono text-xs font-semibold"
+              aria-hidden="true"
+            >
+              {String(index + 1).padStart(2, '0')}
+            </p>
+            <span class="ui-icon-box mt-4" aria-hidden="true">
+              <span class={group.icon}></span>
+            </span>
+            <h2 class="ui-title mt-5">{group.title}</h2>
+            <p class="ui-lead">{group.lead}</p>
+            {group.image && (
+              <img
+                src={group.image}
+                alt={group.imageAlt}
+                width="900"
+                height="600"
+                loading="lazy"
+                class="mt-8 hidden aspect-[3/2] w-full object-cover lg:block"
+                style="border-radius: var(--brand-radius)"
+              />
+            )}
+          </header>
+
+          <!-- `gap-px` sobre o fundo da borda gera os fios entre os itens sem
+               precisar de border em cada um. -->
+          <dl
+            class="grid gap-px overflow-hidden brand-card"
+            style="background-color: var(--brand-border)"
+          >
+            {group.items.map((item) => (
+              <div class="brand-surface p-6 md:p-7">
+                <dt class="brand-ink text-lg font-semibold">{item.title}</dt>
+                <dd class="brand-ink-soft mt-2 text-[0.95rem] leading-relaxed">
+                  {item.text}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </div>
+    </section>
+  ))}
+
+  <!-- Ponte pra frente de PJ: quem chegou em /servicos pode ser exatamente o
+       profissional que a landing atende. -->
+  <section class="brand-surface ui-block-sm">
+    <div class="ui-section">
+      <div
+        class="brand-surface-ink flex flex-col items-start gap-6 px-7 py-9
+        md:flex-row md:items-center md:justify-between md:px-10"
+        style="border-radius: var(--brand-radius)"
+      >
+        <div>
+          <p class="brand-eyebrow text-xs">{pjFront.eyebrow}</p>
+          <p class="brand-display mt-2 text-xl font-bold text-white md:text-2xl">
+            Trabalha como PJ? Existe um plano com preço fechado pra você.
+          </p>
+        </div>
+        <a href={pjFront.ctaHref} class="brand-btn ui-btn shrink-0">
+          {pjFront.ctaLabel}
+          <span class="i-lucide-arrow-right" aria-hidden="true"></span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <ContactSection />
+</Layout>

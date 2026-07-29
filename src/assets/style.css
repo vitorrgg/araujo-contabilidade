@@ -7,8 +7,15 @@
 :root {
   --brand-font-sans: 'Inter Variable', 'Inter Variable fallback',
     system-ui, -apple-system, sans-serif;
-  --brand-font-display: 'Sora Variable', 'Sora Variable fallback',
-    var(--brand-font-sans);
+  --brand-font-display: 'Playfair Display Variable',
+    'Playfair Display Variable fallback', Georgia, serif;
+}
+
+:root {
+  /* O reset do UnoCSS zera a borda e usa este token como cor padrão. Apontando
+     ele pro token da marca, `border` / `border-b` / `divide-y` já saem certos
+     sem precisar repetir `brand-border` em cada elemento. */
+  --un-default-border-color: var(--brand-border);
 }
 
 html {
@@ -25,9 +32,15 @@ body {
   -webkit-font-smoothing: antialiased;
   text-wrap: pretty;
 }
-h1, h2, h3, h4 {
+/* A serifada fica só nos títulos grandes. Em h3/h4 — que na prática são
+   títulos de card, em corpo pequeno — ela perde legibilidade e pesa a página;
+   quando um h3 precisa da serifada (os pilares da home), a classe
+   `brand-display` é aplicada explicitamente. */
+h1, h2 {
   font-family: var(--brand-font-display);
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
+}
+h1, h2, h3, h4 {
   text-wrap: balance;
 }
 a, button, [role='button'] {
@@ -59,7 +72,7 @@ a, button, [role='button'] {
 .ui-title-lg {
   font-family: var(--brand-font-display);
   color: var(--brand-ink);
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
 }
 .ui-title {
   @apply text-3xl font-bold leading-[1.15] sm:text-4xl lg:text-[2.75rem];
