@@ -1,0 +1,85 @@
+---
+import Logo from '~/components/Logo.astro';
+import { site, nav, waLink } from '~/config/site';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="brand-surface-ink ui-block-sm">
+  <div class="ui-section">
+    <div class="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr]">
+      <div>
+        <Logo variant="negative" size={42} />
+        <p class="brand-ink-soft mt-5 max-w-sm text-[0.95rem] leading-relaxed">
+          {site.description}
+        </p>
+      </div>
+
+      <nav aria-label="Rodapé">
+        <h2 class="text-sm font-semibold uppercase tracking-wider">
+          Navegação
+        </h2>
+        <ul class="mt-4 space-y-2.5">
+          {nav.map(({ label, href }) => (
+            <li>
+              <a href={href} class="brand-link text-[0.95rem]">
+                {label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
+      <div>
+        <h2 class="text-sm font-semibold uppercase tracking-wider">
+          Contato
+        </h2>
+        <ul class="mt-4 space-y-2.5 text-[0.95rem]">
+          <li>
+            <a
+              href={waLink()}
+              target="_blank"
+              rel="noopener"
+              class="brand-link inline-flex items-center gap-2"
+            >
+              <span class="i-lucide-message-circle"></span>
+              WhatsApp
+            </a>
+          </li>
+          <li>
+            <a
+              href={`mailto:${site.email}`}
+              class="brand-link inline-flex items-center gap-2"
+            >
+              <span class="i-lucide-mail"></span>
+              {site.email}
+            </a>
+          </li>
+          <li>
+            <a
+              href={site.instagram}
+              target="_blank"
+              rel="noopener"
+              class="brand-link inline-flex items-center gap-2"
+            >
+              <span class="i-lucide-instagram"></span>
+              Instagram
+            </a>
+          </li>
+          <li class="brand-ink-soft inline-flex items-center gap-2">
+            <span class="i-lucide-map-pin"></span>
+            {site.city}
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div
+      class="brand-divider mt-12 flex flex-col gap-2 pt-6 text-sm
+      brand-ink-soft sm:flex-row sm:items-center sm:justify-between"
+    >
+      <p>© {year} {site.name} · {site.crc}</p>
+      <a href="/marca" class="brand-link">Manual de identidade visual</a>
+    </div>
+  </div>
+</footer>

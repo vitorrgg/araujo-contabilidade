@@ -1,0 +1,48 @@
+---
+import Layout from '~/layouts/Layout.astro';
+import Hero from '~/components/Hero.astro';
+import PainPoints from '~/components/PainPoints.astro';
+import Audience from '~/components/Audience.astro';
+import Services from '~/components/Services.astro';
+import HowItWorks from '~/components/HowItWorks.astro';
+import Plans from '~/components/Plans.astro';
+import Comparison from '~/components/Comparison.astro';
+import FaqSection from '~/components/FaqSection.astro';
+import FinalCta from '~/components/FinalCta.astro';
+import { site, whatsapp } from '~/config/site';
+
+/*
+ * Ordem das seções = ordem do argumento de venda:
+ * promessa → dor → "isso é pra mim" → o que resolve → como é na prática →
+ * quanto custa → por que é mais barato → objeções → chamada.
+ */
+const businessSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'AccountingService',
+  name: site.name,
+  description: site.description,
+  url: site.url,
+  email: site.email,
+  telephone: `+${whatsapp.number}`,
+  areaServed: 'BR',
+  address: { '@type': 'PostalAddress', addressLocality: site.city, addressCountry: 'BR' },
+};
+---
+
+<Layout>
+  <script
+    slot="head"
+    type="application/ld+json"
+    is:inline
+    set:html={JSON.stringify(businessSchema)}
+  />
+  <Hero />
+  <PainPoints />
+  <Audience />
+  <Services />
+  <HowItWorks />
+  <Plans />
+  <Comparison />
+  <FaqSection />
+  <FinalCta />
+</Layout>

@@ -1,0 +1,10 @@
+---
+/*
+ * Emite as variáveis CSS `--brand-*` a partir de `src/config/brand.ts`.
+ * É o único ponto onde um hex da marca vira CSS — por isso `is:inline`:
+ * o bloco precisa chegar ao <head> sem passar pelo scoping do Astro.
+ */
+import { tokensCss } from '~/config/brand';
+---
+
+<style is:inline set:html={tokensCss}></style>

@@ -1,0 +1,23 @@
+---
+import SectionHeading from '~/components/SectionHeading.astro';
+import { painPoints } from '~/config/site';
+---
+
+<section class="brand-surface-alt ui-block">
+  <div class="ui-section">
+    <SectionHeading title={painPoints.title} />
+    <div class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      {painPoints.items.map(({ icon, title, text }) => (
+        <article class="brand-card p-6">
+          <span class="ui-icon-box" aria-hidden="true">
+            <span class={icon}></span>
+          </span>
+          <h3 class="brand-ink mt-5 text-lg font-semibold">{title}</h3>
+          <p class="brand-ink-soft mt-2.5 text-[0.95rem] leading-relaxed">
+            {text}
+          </p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

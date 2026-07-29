@@ -1,0 +1,41 @@
+---
+import Logo from '~/components/Logo.astro';
+import MobileNav from '~/components/MobileNav.vue';
+import { nav, waLink } from '~/config/site';
+---
+
+<header
+  class="sticky top-0 z-50 brand-surface-sticky backdrop-blur
+  border-b brand-border"
+>
+  <div class="ui-section flex items-center justify-between gap-6 py-3.5">
+    <a href="/" aria-label="Ir para a página inicial">
+      <Logo size={38} />
+    </a>
+
+    <nav class="hidden lg:flex items-center gap-7" aria-label="Principal">
+      {nav.map(({ label, href }) => (
+        <a href={href} class="brand-link text-[0.95rem] font-medium">
+          {label}
+        </a>
+      ))}
+    </nav>
+
+    <div class="flex items-center gap-2">
+      <!-- O `hidden` vai no wrapper, não no <a>: `.brand-btn` declara `display`
+           e está DEPOIS do UnoCSS no bundle, então venceria o utilitário. -->
+      <span class="hidden sm:block">
+        <a
+          href={waLink()}
+          target="_blank"
+          rel="noopener"
+          class="brand-btn ui-btn-sm whitespace-nowrap"
+        >
+          <span class="i-lucide-message-circle"></span>
+          Falar no WhatsApp
+        </a>
+      </span>
+      <MobileNav client:idle items={nav} waHref={waLink()} />
+    </div>
+  </div>
+</header>

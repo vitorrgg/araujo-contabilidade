@@ -1,0 +1,37 @@
+---
+import SectionHeading from '~/components/SectionHeading.astro';
+import { howItWorks } from '~/config/site';
+---
+
+<section id="como-funciona" class="brand-surface-ink ui-block scroll-mt-24">
+  <div class="ui-section">
+    <SectionHeading eyebrow={howItWorks.eyebrow} title={howItWorks.title} />
+
+    <ol class="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-4 lg:gap-6">
+      {howItWorks.steps.map(({ title, text }, index) => (
+        <li class="relative">
+          <!-- Linha de continuidade entre os passos; some no mobile,
+               onde a leitura já é vertical. -->
+          {index < howItWorks.steps.length - 1 && (
+            <span
+              class="absolute left-12 top-5 hidden h-px w-[calc(100%-2rem)]
+              bg-white/15 lg:block"
+              aria-hidden="true"
+            ></span>
+          )}
+          <span
+            class="relative z-10 inline-flex size-10 items-center justify-center
+            rounded-full bg-white/10 font-display text-base font-semibold
+            text-white ring-1 ring-white/20"
+          >
+            {index + 1}
+          </span>
+          <h3 class="mt-5 text-lg font-semibold text-white">{title}</h3>
+          <p class="brand-ink-soft mt-2.5 text-[0.95rem] leading-relaxed">
+            {text}
+          </p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>

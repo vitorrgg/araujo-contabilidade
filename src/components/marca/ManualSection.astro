@@ -1,0 +1,36 @@
+---
+/*
+ * Uma seção do manual = uma página do PDF (ver `src/assets/print.css`).
+ * O número é passado à mão pra bater com o sumário impresso.
+ */
+export type Props = {
+  index?: string;
+  title: string;
+  lead?: string;
+  surface?: 'default' | 'alt' | 'ink';
+  id?: string;
+};
+
+const { index, title, lead, surface = 'default', id } = Astro.props;
+
+const surfaceClass = {
+  default: 'brand-surface',
+  alt: 'brand-surface-alt',
+  ink: 'brand-surface-ink',
+}[surface];
+---
+
+<section id={id} class:list={["manual-page ui-block", surfaceClass]}>
+  <div class="ui-section">
+    <header class="max-w-2xl">
+      {index && (
+        <p class="brand-eyebrow text-sm">{index}</p>
+      )}
+      <h2 class:list={['ui-title', index && 'mt-3']}>{title}</h2>
+      {lead && <p class="ui-lead">{lead}</p>}
+    </header>
+    <div class="mt-10 md:mt-12">
+      <slot />
+    </div>
+  </div>
+</section>

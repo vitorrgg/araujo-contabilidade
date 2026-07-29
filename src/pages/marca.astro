@@ -1,0 +1,456 @@
+---
+import Layout from '~/layouts/Layout.astro';
+import Logo from '~/components/Logo.astro';
+import ManualSection from '~/components/marca/ManualSection.astro';
+import ColorSwatch from '~/components/marca/ColorSwatch.astro';
+import LogoVariant from '~/components/marca/LogoVariant.astro';
+import MisuseGrid from '~/components/marca/MisuseGrid.astro';
+import Applications from '~/components/marca/Applications.astro';
+import ManualToolbar from '~/components/marca/ManualToolbar.astro';
+import '~/assets/print.css';
+import { site } from '~/config/site';
+import {
+  institutionalColors,
+  colorScales,
+  typography,
+  tokens,
+} from '~/config/brand';
+
+/*
+ * Manual de identidade visual — protótipo.
+ *
+ * Estrutura espelha o manual de referência (Rodrigo Casa & Construção):
+ * capa → apresentação → assinatura → variações → usos indevidos →
+ * cores → uso das cores → tipografia → aplicações.
+ *
+ * Diferença deliberada: aqui o manual não é um PDF exportado de um editor —
+ * ele LÊ os mesmos tokens que o site usa (`src/config/brand.ts`). Não existe
+ * o cenário "o manual diz uma coisa e o site faz outra".
+ */
+
+const functionalUse = [
+  {
+    token: 'Branco',
+    hex: tokens['brand-surface'],
+    role: 'Cor de fundo',
+    detail: 'Fundo padrão de site, apresentação e material impresso.',
+  },
+  {
+    token: 'Grafite',
+    hex: tokens['brand-ink'],
+    role: 'Títulos e blocos em destaque',
+    detail: 'Texto de título, rodapé, cartão de visita e faixas de destaque.',
+  },
+  {
+    token: 'Verde Esmeralda',
+    hex: tokens['brand-primary'],
+    role: 'Botões, links e detalhes',
+    detail: 'Toda ação clicável e todo detalhe que precisa puxar o olho.',
+  },
+  {
+    token: 'Verde Menta',
+    hex: tokens['brand-accent'],
+    role: 'Realce sobre fundo escuro',
+    detail: 'Substitui o verde esmeralda quando o fundo é grafite.',
+  },
+];
+---
+
+<Layout
+  title={`Manual de identidade visual · ${site.name}`}
+  description={`Padrões de aplicação da marca ${site.name}: assinatura, cores, tipografia e usos indevidos.`}
+  isBare
+  noIndex
+>
+  <ManualToolbar />
+
+  <!-- 1 · Capa -->
+  <section class="manual-page ui-block brand-surface-ink flex min-h-[80vh] items-center">
+    <div class="ui-section">
+      <div class="grid items-center gap-12 lg:grid-cols-2">
+        <div>
+          <p class="brand-eyebrow text-sm">Protótipo · v0.1</p>
+          <h1 class="ui-title-lg mt-4">
+            Manual de<br />identidade visual
+          </h1>
+          <p class="ui-lead max-w-md">
+            Padrões de aplicação da marca — assinatura, cores, tipografia e
+            limites de uso.
+          </p>
+        </div>
+        <div class="flex justify-center lg:justify-end">
+          <Logo variant="negative" layout="stacked" size={110} />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 · Apresentação -->
+  <ManualSection index="01" title="Apresentação">
+    <div class="grid gap-10 lg:grid-cols-2">
+      <div class="space-y-4 text-lg leading-relaxed brand-ink-soft">
+        <p>
+          A marca é o bem mais valioso que uma empresa pode ter, e sua
+          identidade visual é o que traduz graficamente a essência que ela
+          representa. Numa contabilidade, isso pesa ainda mais: o cliente
+          entrega documento, dinheiro e responsabilidade legal para alguém que
+          ele muitas vezes nunca viu pessoalmente. A identidade é parte de como
+          essa confiança se constrói.
+        </p>
+        <p>
+          Uma marca forte precisa de uniformidade e coerência. Por isso foram
+          definidos os padrões deste manual, que garantem que logotipo,
+          tipografia e cores estejam integrados em todas as manifestações
+          gráficas — do site ao post de Instagram, do contrato ao cartão de
+          visita.
+        </p>
+        <p>
+          O objetivo aqui é orientar e facilitar o uso correto dos elementos que
+          identificam a marca, para que qualquer pessoa que venha a produzir
+          material — designer, agência ou o próprio time — chegue ao mesmo
+          resultado.
+        </p>
+      </div>
+      <aside
+        class="brand-surface-soft manual-keep self-start p-7"
+        style="border-radius: var(--brand-radius)"
+      >
+        <h3 class="brand-display brand-ink text-lg font-bold">
+          O que a marca precisa comunicar
+        </h3>
+        <ul class="mt-5 space-y-4 text-[0.95rem] leading-relaxed brand-ink-soft">
+          <li>
+            <strong class="brand-ink">Competência sem formalidade vazia.</strong>{' '}
+            É contabilidade séria, mas falando a língua de quem trabalha como
+            PJ — não a de quem tem departamento financeiro.
+          </li>
+          <li>
+            <strong class="brand-ink">Agilidade.</strong>{' '}
+            A promessa central é resolver rápido, com o cliente no controle.
+            Nada na identidade pode parecer burocrático ou pesado.
+          </li>
+          <li>
+            <strong class="brand-ink">Transparência.</strong>{' '}
+            Preço claro, sem letra miúda. A comunicação evita ornamento e vai
+            direto ao ponto.
+          </li>
+        </ul>
+      </aside>
+    </div>
+  </ManualSection>
+
+  <!-- 3 · A assinatura -->
+  <ManualSection
+    index="02"
+    title="A assinatura"
+    lead="A assinatura combina o símbolo (o “A” em caixa grafite, com a barra em verde) e o logotipo em duas linhas: o nome e a linha de apoio."
+    surface="alt"
+  >
+    <div class="grid gap-8 lg:grid-cols-[1.1fr_1fr]">
+      <div
+        class="manual-keep brand-card flex items-center justify-center
+        self-start px-12 py-20"
+      >
+        <Logo size={64} />
+      </div>
+      <div class="space-y-6">
+        <div>
+          <h3 class="brand-ink font-semibold">Construção</h3>
+          <p class="brand-ink-soft mt-2 text-[0.95rem] leading-relaxed">
+            O símbolo ocupa um quadrado com cantos arredondados. A barra
+            horizontal do “A” é o único elemento em verde — é ela que carrega a
+            cor primária e permite que a marca seja reconhecida mesmo reduzida.
+            A linha de apoio “Contabilidade” usa espacejamento aberto para
+            equilibrar a massa do nome.
+          </p>
+        </div>
+        <div>
+          <h3 class="brand-ink font-semibold">Área de proteção</h3>
+          <p class="brand-ink-soft mt-2 text-[0.95rem] leading-relaxed">
+            Nenhum elemento gráfico ou texto pode invadir uma margem
+            equivalente à altura do símbolo em volta da assinatura.
+          </p>
+          <div
+            class="manual-keep mt-4 flex items-center justify-center p-10"
+            style="background-color: var(--brand-surface);
+              border: 1px dashed var(--brand-primary);
+              border-radius: var(--brand-radius)"
+          >
+            <div
+              class="p-11"
+              style="outline: 1px dashed var(--brand-border); outline-offset: 0"
+            >
+              <Logo size={40} />
+            </div>
+          </div>
+        </div>
+        <div>
+          <h3 class="brand-ink font-semibold">Tamanho mínimo</h3>
+          <p class="brand-ink-soft mt-2 text-[0.95rem] leading-relaxed">
+            Assinatura completa: 24&nbsp;px de altura em tela ou 12&nbsp;mm em
+            impresso. Abaixo disso, use apenas o símbolo.
+          </p>
+        </div>
+      </div>
+    </div>
+  </ManualSection>
+
+  <!-- 4 · Variações -->
+  <ManualSection
+    index="03"
+    title="Variações"
+    lead="Para dar flexibilidade nas aplicações, a assinatura tem 4 variações. A assinatura nunca deve sofrer alterações de cor, diagramação, proporção ou tipografia além destas."
+  >
+    <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      <LogoVariant
+        variant="default"
+        label="Logomarca"
+        usage="Uso preferencial, sobre fundo branco ou cinza névoa."
+      />
+      <LogoVariant
+        variant="mono"
+        label="Logomarca monocromática"
+        usage="Impressão em uma cor, carimbo, gravação e fax."
+      />
+      <LogoVariant
+        variant="negative"
+        label="Logomarca negativa"
+        usage="Sobre fundo grafite ou foto escura, com contraste suficiente."
+      />
+      <LogoVariant
+        variant="negative-mono"
+        label="Negativa monocromática"
+        usage="Fundo escuro com restrição de cor — ex.: aplicação em vinil."
+      />
+    </div>
+
+    <div
+      class="manual-keep brand-surface-soft mt-8 flex flex-wrap items-center
+      gap-6 p-6"
+      style="border-radius: var(--brand-radius)"
+    >
+      <Logo symbolOnly size={56} />
+      <div class="max-w-xl">
+        <h3 class="brand-ink font-semibold">Símbolo isolado</h3>
+        <p class="brand-ink-soft mt-1.5 text-[0.95rem] leading-relaxed">
+          Permitido em avatar de rede social, favicon, selo e espaços quadrados
+          ou circulares — nunca como substituto da assinatura em material de
+          apresentação, onde o nome precisa estar legível.
+        </p>
+      </div>
+    </div>
+  </ManualSection>
+
+  <!-- 5 · Usos indevidos -->
+  <ManualSection
+    index="04"
+    title="Usos indevidos"
+    lead="Estes são os erros que mais aparecem na prática. Nenhum deles é aceitável, mesmo em material interno."
+    surface="alt"
+  >
+    <MisuseGrid />
+  </ManualSection>
+
+  <!-- 6 · Cores institucionais -->
+  <ManualSection
+    index="05"
+    title="Cores institucionais"
+    lead="São as cores primárias da identidade. O par grafite + verde dá versatilidade à marca sem descaracterizar o segmento: sobriedade de quem cuida de dinheiro dos outros, com um verde que sinaliza movimento e não banco tradicional."
+  >
+    <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {institutionalColors.map((color) => <ColorSwatch {...color} />)}
+    </div>
+
+    <h3 class="brand-ink mt-14 text-lg font-semibold">Escalas completas</h3>
+    <p class="brand-ink-soft mt-2 max-w-2xl text-[0.95rem] leading-relaxed">
+      Variações de cada cor usadas em interface — fundos, bordas, estados de
+      hover e texto secundário. Não crie tons fora desta escala.
+    </p>
+    <div class="mt-6 space-y-6">
+      {colorScales.map(({ name, prefix, scale }) => (
+        <div class="manual-keep">
+          <p class="brand-ink-muted mb-2 font-mono text-xs uppercase tracking-wider">
+            {name} · {prefix}
+          </p>
+          <div class="flex overflow-hidden" style="border-radius: var(--brand-radius)">
+            {Object.entries(scale).map(([step, hex]) => (
+              <div class="flex-1" title={`${prefix}-${step} · ${hex}`}>
+                <div class="h-16" style={`background-color: ${hex}`}></div>
+                <p class="brand-ink-muted mt-1.5 text-center font-mono text-[0.65rem]">
+                  {step}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </ManualSection>
+
+  <!-- 7 · Uso das cores -->
+  <ManualSection
+    index="06"
+    title="Uso das cores"
+    lead="Na comunicação da marca, cada cor tem uma função. Cor decorativa, sem função, não entra."
+    surface="alt"
+  >
+    <div class="grid gap-8 lg:grid-cols-[1fr_1.1fr]">
+      <ul class="space-y-3">
+        {functionalUse.map(({ token, hex, role, detail }) => (
+          <li class="manual-keep brand-card flex items-start gap-4 p-4">
+            <span
+              class="mt-0.5 size-11 shrink-0"
+              style={`background-color: ${hex}; border-radius: var(--brand-radius);
+                ${hex === '#FFFFFF' ? 'box-shadow: inset 0 0 0 1px var(--brand-border);' : ''}`}
+            ></span>
+            <div>
+              <p class="brand-ink font-semibold">{role}</p>
+              <p class="brand-ink-soft mt-1 text-sm leading-relaxed">{detail}</p>
+              <p class="brand-ink-muted mt-1 font-mono text-xs">
+                {token} · {hex.toUpperCase()}
+              </p>
+            </div>
+          </li>
+        ))}
+      </ul>
+
+      <div class="manual-keep brand-card overflow-hidden">
+        <p class="brand-ink-muted border-b brand-border px-5 py-3 text-xs
+          font-semibold uppercase tracking-wider">
+          Exemplo de aplicação
+        </p>
+        <div class="p-7">
+          <p class="brand-eyebrow text-xs">Contabilidade para PJ</p>
+          <h3 class="brand-display brand-ink mt-2 text-2xl font-bold leading-tight">
+            Sua nota fiscal em um clique
+          </h3>
+          <p class="brand-ink-soft mt-3 text-sm leading-relaxed">
+            Texto corrido em grafite suave, sobre o branco institucional.
+            O <a href="#" class="brand-text-primary font-medium underline">link
+            aparece em verde</a>, assim como o botão.
+          </p>
+          <span class="brand-btn ui-btn-sm mt-5">Falar no WhatsApp</span>
+        </div>
+        <div class="brand-surface-ink p-7">
+          <p class="brand-eyebrow text-xs">Bloco em destaque</p>
+          <h3 class="brand-display mt-2 text-2xl font-bold leading-tight text-white">
+            Sobre grafite, o realce vira verde menta
+          </h3>
+          <span class="brand-btn ui-btn-sm mt-5">O botão inverte</span>
+        </div>
+      </div>
+    </div>
+  </ManualSection>
+
+  <!-- 8 · Tipografia -->
+  <ManualSection
+    index="07"
+    title="Tipografia"
+    lead="A tipografia é a voz da marca. Manter um padrão reforça o reconhecimento. Foram escolhidas duas famílias, ambas livres e disponíveis no Google Fonts — a marca não pode depender de fonte paga que ninguém do time tem instalada."
+  >
+    <div class="grid gap-6 lg:grid-cols-2">
+      {[typography.display, typography.text].map((font) => (
+        <article class="manual-keep brand-card p-7">
+          <div class="flex items-baseline justify-between gap-4">
+            <h3
+              class="text-3xl font-bold brand-ink"
+              style={`font-family: var(${font.cssVar})`}
+            >
+              {font.family}
+            </h3>
+            <p class="brand-eyebrow text-xs">{font.role}</p>
+          </div>
+          <p class="brand-ink-soft mt-3 text-[0.95rem] leading-relaxed">
+            {font.detail}
+          </p>
+          <div
+            class="brand-divider mt-5 space-y-4 pt-5"
+            style={`font-family: var(${font.cssVar})`}
+          >
+            {font.weights.map(({ weight, label, usage }) => (
+              <div>
+                <p class="brand-ink-muted font-sans text-xs uppercase tracking-wider">
+                  {label} · {usage}
+                </p>
+                <p
+                  class="brand-ink mt-1.5 text-2xl leading-snug"
+                  style={`font-weight: ${weight}`}
+                >
+                  ABCDEFGHIJ abcdefghij
+                </p>
+                <p
+                  class="brand-ink mt-0.5 text-2xl leading-snug"
+                  style={`font-weight: ${weight}`}
+                >
+                  0123456789 R$ % * ! ? # @
+                </p>
+              </div>
+            ))}
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <div
+      class="manual-keep brand-surface-soft mt-8 grid gap-6 p-7 md:grid-cols-3"
+      style="border-radius: var(--brand-radius)"
+    >
+      <div>
+        <p class="brand-eyebrow text-xs">Hierarquia</p>
+        <h3 class="brand-ink mt-2 font-semibold">Títulos</h3>
+        <p class="brand-ink-soft mt-1 text-sm leading-relaxed">
+          Sora Bold, entrelinha curta e espacejamento negativo (-0,02em).
+        </p>
+      </div>
+      <div>
+        <p class="brand-eyebrow text-xs">Hierarquia</p>
+        <h3 class="brand-ink mt-2 font-semibold">Subtítulos e números</h3>
+        <p class="brand-ink-soft mt-1 text-sm leading-relaxed">
+          Sora SemiBold. Valores, alíquotas e preços sempre nesta família.
+        </p>
+      </div>
+      <div>
+        <p class="brand-eyebrow text-xs">Hierarquia</p>
+        <h3 class="brand-ink mt-2 font-semibold">Texto corrido</h3>
+        <p class="brand-ink-soft mt-1 text-sm leading-relaxed">
+          Inter Regular, entrelinha 1,6. Ênfase com Inter SemiBold — nunca
+          com itálico ou sublinhado.
+        </p>
+      </div>
+    </div>
+  </ManualSection>
+
+  <!-- 9 · Aplicações -->
+  <ManualSection
+    index="08"
+    title="Aplicações"
+    lead="Como a identidade se comporta nas peças que a marca vai produzir primeiro."
+    surface="alt"
+  >
+    <Applications />
+  </ManualSection>
+
+  <!-- 10 · Fechamento -->
+  <section class="manual-page ui-block brand-surface-ink">
+    <div class="ui-section">
+      <div class="grid items-center gap-10 lg:grid-cols-[1fr_auto]">
+        <div>
+          <h2 class="ui-title">Este manual é código, não PDF</h2>
+          <p class="ui-lead max-w-xl">
+            Todas as cores, fontes e a assinatura desta página vêm de{' '}
+            <code class="rounded px-1.5 py-0.5 font-mono text-[0.9em]"
+              style="background-color: rgb(255 255 255 / 0.1)"
+            >src/config/brand.ts</code> — o mesmo arquivo que o site consome.
+            Mudou a marca, muda o site e este manual junto, sem versão
+            desencontrada circulando por e-mail.
+          </p>
+          <p class="brand-ink-muted mt-6 text-sm">
+            Para gerar o PDF: Ctrl/Cmd + P → paisagem → ativar “gráficos de
+            segundo plano”.
+          </p>
+        </div>
+        <Logo variant="negative" layout="stacked" size={96} />
+      </div>
+    </div>
+  </section>
+</Layout>

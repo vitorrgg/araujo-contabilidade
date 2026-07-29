@@ -1,0 +1,109 @@
+---
+/*
+ * Assinatura da marca.
+ *
+ * As 4 variações previstas no manual saem todas deste componente — nunca de
+ * arquivos de imagem separados, que é como uma identidade começa a divergir.
+ * Cores vêm dos tokens `--brand-*`, então a assinatura acompanha a paleta.
+ *
+ *   default        → colorida, para fundo claro
+ *   mono           → monocromática, para fundo claro (1 cor, fax/carimbo/gravação)
+ *   negative       → colorida, para fundo escuro
+ *   negative-mono  → monocromática, para fundo escuro
+ */
+import { site } from '~/config/site';
+
+export type Props = {
+  variant?: 'default' | 'mono' | 'negative' | 'negative-mono';
+  layout?: 'inline' | 'stacked';
+  /** Altura do símbolo em px; o texto escala junto. */
+  size?: number;
+  /** Só o símbolo, sem o logotipo (avatar, favicon, selo). */
+  symbolOnly?: boolean;
+  as?: 'div' | 'h1' | 'h2';
+  class?: string;
+};
+
+const {
+  variant = 'default',
+  layout = 'inline',
+  size = 40,
+  symbolOnly = false,
+  as: Tag = 'div',
+  class: className = '',
+} = Astro.props;
+
+const isNegative = variant === 'negative' || variant === 'negative-mono';
+const isMono = variant === 'mono' || variant === 'negative-mono';
+
+// Em negativo, o símbolo inverte: fundo claro com a letra em grafite.
+const boxFill = isNegative ? 'var(--brand-primary-contrast)' : 'var(--brand-ink)';
+const letterFill = isNegative ? 'var(--brand-ink)' : 'var(--brand-primary-contrast)';
+const barFill = isMono ? letterFill : 'var(--brand-primary)';
+const textColor = isNegative
+  ? 'var(--brand-primary-contrast)'
+  : 'var(--brand-ink)';
+
+const isStacked = layout === 'stacked';
+const nameSize = size * (isStacked ? 0.62 : 0.5);
+const taglineSize = Math.max(nameSize * 0.32, 7);
+---
+
+<Tag
+  class:list={[
+    'inline-flex items-center leading-none',
+    isStacked ? 'flex-col gap-3 text-center' : 'gap-3',
+    className,
+  ]}
+  style={`color: ${textColor}`}
+>
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 44 44"
+    role="img"
+    aria-label={site.name}
+    class="shrink-0"
+  >
+    <rect width="44" height="44" rx="11" fill={boxFill} />
+    <path
+      d="M12 32 L22 12 L32 32"
+      fill="none"
+      stroke={letterFill}
+      stroke-width="3.4"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+    <path
+      d="M16.6 25.4 H27.4"
+      fill="none"
+      stroke={barFill}
+      stroke-width="3.4"
+      stroke-linecap="round"
+    />
+  </svg>
+  {!symbolOnly && (
+    <span
+      class:list={[
+        'flex flex-col justify-center gap-[0.22em]',
+        isStacked && 'items-center',
+      ]}
+    >
+      <span
+        class="brand-display font-bold uppercase leading-none"
+        style={`font-size: ${nameSize}px; letter-spacing: -0.01em`}
+      >
+        Araujo
+      </span>
+      <span
+        class="font-semibold uppercase leading-none"
+        style={`font-size: ${taglineSize}px; letter-spacing: 0.24em;` +
+          ` color: ${isNegative
+            ? 'var(--brand-on-ink-muted)'
+            : 'var(--brand-ink-soft)'}`}
+      >
+        Contabilidade
+      </span>
+    </span>
+  )}
+</Tag>

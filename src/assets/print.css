@@ -1,0 +1,49 @@
+/*
+ * Impressão do manual de identidade.
+ *
+ * O manual é uma página web, mas precisa sair em PDF pra circular por e-mail
+ * como o manual de referência. Ctrl+P → "Salvar como PDF", paisagem,
+ * "Gráficos de segundo plano" ligado (o Chrome respeita `print-color-adjust`,
+ * mas o toggle ainda é necessário em alguns casos).
+ */
+
+@media print {
+  @page {
+    size: A4 landscape;
+    margin: 0;
+  }
+
+  html {
+    scroll-padding-top: 0;
+  }
+
+  /* Cor chapada de bloco de marca não pode virar branco na impressão. */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  .print-hidden {
+    display: none !important;
+  }
+
+  /* Cada seção do manual = uma página do PDF. */
+  .manual-page {
+    break-after: page;
+    page-break-after: always;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .manual-page:last-of-type {
+    break-after: auto;
+    page-break-after: auto;
+  }
+
+  /* Evita quebrar amostra de cor ou cartão no meio. */
+  .manual-keep {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+}

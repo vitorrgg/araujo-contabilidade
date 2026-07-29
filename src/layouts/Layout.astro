@@ -1,0 +1,63 @@
+---
+import '@unocss/reset/tailwind.css';
+import '@fontsource-variable/inter';
+import '@fontsource-variable/sora';
+import '~/assets/brand.css';
+import '~/assets/style.css';
+import 'uno.css';
+import BrandTokens from '~/components/BrandTokens.astro';
+import SiteHeader from '~/components/SiteHeader.astro';
+import SiteFooter from '~/components/SiteFooter.astro';
+import { site } from '~/config/site';
+
+export type Props = {
+  title?: string;
+  description?: string;
+  /** Páginas fora do site institucional (ex.: o manual) escondem nav e rodapé. */
+  isBare?: boolean;
+  /** Manual e páginas internas não devem entrar no índice do Google. */
+  noIndex?: boolean;
+};
+
+const {
+  title = `${site.name} · ${site.tagline}`,
+  description = site.description,
+  isBare = false,
+  noIndex = false,
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site ?? site.url);
+// TODO: gerar o banner de compartilhamento (1200x630) e apontar aqui.
+const ogImage: string | null = null;
+---
+
+<!DOCTYPE html>
+<html lang="pt-br" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical.href} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    {noIndex && <meta name="robots" content="noindex, nofollow" />}
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical.href} />
+    {ogImage && <meta property="og:image" content={ogImage} />}
+    <meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
+    <BrandTokens />
+    <slot name="head" />
+  </head>
+  <body>
+    {!isBare && <SiteHeader />}
+    <main>
+      <slot />
+    </main>
+    {!isBare && <SiteFooter />}
+  </body>
+</html>

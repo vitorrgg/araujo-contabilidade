@@ -1,0 +1,106 @@
+/*
+ * Camada de ESTRUTURA — o que não é marca.
+ * Espaçamento de seção, tipografia base e os utilitários `ui-*` que padronizam
+ * botão, título e container. Cor aqui só entra via token `--brand-*`.
+ */
+
+:root {
+  --brand-font-sans: 'Inter Variable', 'Inter Variable fallback',
+    system-ui, -apple-system, sans-serif;
+  --brand-font-display: 'Sora Variable', 'Sora Variable fallback',
+    var(--brand-font-sans);
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Header fixo não pode cobrir o alvo das âncoras do menu. */
+  scroll-padding-top: 5.5rem;
+}
+body {
+  font-family: var(--brand-font-sans);
+  color: var(--brand-ink);
+  background-color: var(--brand-surface);
+  overflow-x: hidden;
+  min-height: 100dvh;
+  -webkit-font-smoothing: antialiased;
+  text-wrap: pretty;
+}
+h1, h2, h3, h4 {
+  font-family: var(--brand-font-display);
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+a, button, [role='button'] {
+  transition: background-color 200ms, color 200ms,
+    border-color 200ms, opacity 200ms;
+}
+
+/* --- container e ritmo vertical ---
+ * Estão em classes SEPARADAS, e aplicadas em elementos diferentes
+ * (`ui-block` na <section>, `ui-section` no <div> interno), de propósito:
+ * o CSS gerado pelo UnoCSS entra ANTES deste arquivo no bundle, então um
+ * utilitário (`py-3`) perde para a classe de componente na cascata. Juntar as
+ * duas responsabilidades faria o header herdar o padding de seção sem aviso. */
+.ui-section {
+  @apply w-full mx-auto px-5 sm:px-6 lg:px-8;
+  max-width: 76rem;
+}
+.ui-block {
+  @apply py-16 md:py-20 lg:py-24;
+}
+.ui-block-sm {
+  @apply py-10 md:py-14;
+}
+
+/* --- títulos ---
+ * `@apply` só resolve utilitário do UnoCSS, então as cores entram como
+ * propriedade direta apontando pro token — nunca via classe `brand-*`. */
+.ui-title,
+.ui-title-lg {
+  font-family: var(--brand-font-display);
+  color: var(--brand-ink);
+  letter-spacing: -0.02em;
+}
+.ui-title {
+  @apply text-3xl font-bold leading-[1.15] sm:text-4xl lg:text-[2.75rem];
+}
+.ui-title-lg {
+  @apply text-[2.1rem] font-bold leading-[1.1] sm:text-5xl lg:text-[3.5rem];
+}
+.ui-lead {
+  @apply mt-4 text-lg leading-relaxed;
+  color: var(--brand-ink-soft);
+}
+/* Dentro de bloco escuro, o título herda o contraste da superfície. */
+.brand-surface-ink .ui-title,
+.brand-surface-ink .ui-title-lg {
+  color: var(--brand-primary-contrast);
+}
+.brand-surface-ink .ui-lead {
+  color: var(--brand-on-ink-soft);
+}
+
+/* --- botões (o visual mora em brand.css; aqui só a métrica) --- */
+[class*='ui-btn'] {
+  @apply text-base px-5 py-3;
+}
+.ui-btn-sm {
+  @apply text-sm px-4 py-2.5;
+}
+.ui-btn-lg {
+  @apply text-lg px-7 py-4;
+}
+
+/* --- ícone dentro de cartão ---
+ * O ícone em si é um <span class="i-lucide-*"> filho: o preset de ícones usa
+ * background-color/mask, que brigaria com o fundo da caixa se fosse o mesmo nó. */
+.ui-icon-box {
+  @apply inline-flex items-center justify-center size-11 text-xl shrink-0;
+  background-color: var(--brand-primary-soft);
+  color: var(--brand-primary);
+  border-radius: var(--brand-radius);
+}
+.brand-surface-ink .ui-icon-box {
+  background-color: rgb(255 255 255 / 0.08);
+  color: var(--brand-accent);
+}

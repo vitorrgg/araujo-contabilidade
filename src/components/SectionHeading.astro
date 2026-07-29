@@ -1,0 +1,24 @@
+---
+export type Props = {
+  eyebrow?: string;
+  title: string;
+  lead?: string;
+  align?: 'left' | 'center';
+  class?: string;
+};
+
+const {
+  eyebrow,
+  title,
+  lead,
+  align = 'center',
+  class: className = '',
+} = Astro.props;
+const isCenter = align === 'center';
+---
+
+<div class:list={[isCenter && 'mx-auto max-w-2xl text-center', className]}>
+  {eyebrow && <p class="brand-eyebrow text-sm">{eyebrow}</p>}
+  <h2 class:list={['ui-title', eyebrow && 'mt-3']}>{title}</h2>
+  {lead && <p class="ui-lead">{lead}</p>}
+</div>

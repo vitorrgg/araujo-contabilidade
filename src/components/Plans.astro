@@ -1,0 +1,76 @@
+---
+import SectionHeading from '~/components/SectionHeading.astro';
+import { plans, waLink } from '~/config/site';
+---
+
+<section id="planos" class="brand-surface ui-block scroll-mt-24">
+  <div class="ui-section">
+    <SectionHeading
+      eyebrow={plans.eyebrow}
+      title={plans.title}
+      lead={plans.lead}
+    />
+
+    <div class="mx-auto mt-12 grid max-w-4xl gap-6 md:grid-cols-2">
+      {plans.items.map((plan) => (
+        <article
+          class:list={[
+            'brand-card relative flex flex-col p-7 md:p-8',
+            plan.isFeatured && 'ring-2',
+          ]}
+          style={plan.isFeatured ? '--un-ring-color: var(--brand-primary)' : undefined}
+        >
+          {plan.isFeatured && (
+            <span
+              class="absolute -top-3 left-7 rounded-full px-3 py-1 text-xs
+              font-semibold uppercase tracking-wider text-white"
+              style="background-color: var(--brand-primary)"
+            >
+              Mais contratado
+            </span>
+          )}
+
+          <h3 class="brand-display brand-ink text-xl font-bold">{plan.name}</h3>
+          <p class="brand-ink-soft mt-2 text-[0.95rem] leading-relaxed">
+            {plan.pitch}
+          </p>
+
+          <p class="mt-6 flex items-baseline gap-1.5">
+            <span class="brand-display brand-ink text-4xl font-bold">
+              {plan.price}
+            </span>
+            <span class="brand-ink-soft text-base">{plan.period}</span>
+          </p>
+
+          <ul class="mt-7 flex-1 space-y-3">
+            {plan.features.map((feature) => (
+              <li class="flex items-start gap-2.5 text-[0.95rem] brand-ink-soft">
+                <span
+                  class="i-lucide-check brand-text-primary mt-0.5 shrink-0"
+                  aria-hidden="true"
+                ></span>
+                {feature}
+              </li>
+            ))}
+          </ul>
+
+          <a
+            href={waLink(plan.ctaMessage)}
+            target="_blank"
+            rel="noopener"
+            class:list={[
+              'ui-btn mt-8 w-full',
+              plan.isFeatured ? 'brand-btn' : 'brand-btn-ghost',
+            ]}
+          >
+            {plan.ctaLabel}
+          </a>
+        </article>
+      ))}
+    </div>
+
+    <p class="brand-ink-muted mx-auto mt-6 max-w-2xl text-center text-sm">
+      {plans.note}
+    </p>
+  </div>
+</section>

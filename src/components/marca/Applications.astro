@@ -1,0 +1,107 @@
+---
+import Logo from '~/components/Logo.astro';
+import { site } from '~/config/site';
+
+/*
+ * Aplicações: onde a identidade encosta no mundo real. São mockups em HTML
+ * (não imagem) de propósito — mudou o token, o mockup muda junto e continua
+ * sendo uma referência válida pra quem for produzir a peça.
+ */
+---
+
+<div class="grid gap-6 lg:grid-cols-2">
+  <!-- Cartão de visita -->
+  <article class="manual-keep">
+    <h3 class="brand-ink mb-3 font-semibold">Cartão de visita</h3>
+    <div class="grid gap-4 sm:grid-cols-2">
+      <div
+        class="brand-surface-ink flex aspect-[85/50] items-center justify-center p-6"
+        style="border-radius: var(--brand-radius)"
+      >
+        <Logo variant="negative" layout="stacked" size={40} />
+      </div>
+      <div
+        class="brand-card flex aspect-[85/50] flex-col justify-between p-5"
+      >
+        <Logo size={26} />
+        <div class="text-[0.7rem] leading-relaxed brand-ink-soft">
+          <p class="brand-ink font-semibold">Gabriel Araujo</p>
+          <p>Contador · {site.crc}</p>
+          <p class="mt-1.5">{site.email}</p>
+          <p>{site.domain}</p>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- Post de Instagram -->
+  <article class="manual-keep">
+    <h3 class="brand-ink mb-3 font-semibold">Post de Instagram</h3>
+    <div class="grid gap-4 sm:grid-cols-2">
+      <div
+        class="brand-surface-ink flex aspect-square flex-col justify-between p-6"
+        style="border-radius: var(--brand-radius)"
+      >
+        <Logo variant="negative" size={26} />
+        <p class="font-display text-xl font-bold leading-tight text-white">
+          Fator R:{' '}
+          <span style="color: var(--brand-accent)">
+            a conta que decide se você paga 6% ou 15,5%
+          </span>
+        </p>
+        <p class="text-[0.7rem] uppercase tracking-widest brand-ink-muted">
+          Arrasta pro lado
+        </p>
+      </div>
+      <div
+        class="brand-card flex aspect-square flex-col justify-between p-6"
+      >
+        <Logo size={26} />
+        <p class="font-display brand-ink text-xl font-bold leading-tight">
+          Sua nota fiscal em{' '}
+          <span class="brand-text-primary">um clique</span>
+        </p>
+        <span
+          class="brand-btn self-start px-4 py-2 text-xs"
+        >
+          Chama no WhatsApp
+        </span>
+      </div>
+    </div>
+  </article>
+
+  <!-- Assinatura de e-mail -->
+  <article class="manual-keep">
+    <h3 class="brand-ink mb-3 font-semibold">Assinatura de e-mail</h3>
+    <div class="brand-card p-6">
+      <div class="flex items-center gap-4">
+        <Logo symbolOnly size={48} />
+        <div
+          class="border-l pl-4 text-sm leading-relaxed brand-ink-soft"
+          style="border-color: var(--brand-border)"
+        >
+          <p class="brand-ink font-semibold">Gabriel Araujo</p>
+          <p class="brand-text-primary text-[0.8rem] font-medium">
+            {site.name} · Contador
+          </p>
+          <p class="mt-1.5 text-[0.8rem]">{site.email} · {site.domain}</p>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- Foto de perfil e favicon -->
+  <article class="manual-keep">
+    <h3 class="brand-ink mb-3 font-semibold">Perfil, avatar e favicon</h3>
+    <div class="brand-card flex items-center gap-6 p-6">
+      <Logo symbolOnly size={72} />
+      <Logo symbolOnly size={48} />
+      <Logo symbolOnly size={32} />
+      <Logo symbolOnly size={16} />
+      <p class="brand-ink-soft ml-auto max-w-[14rem] text-sm leading-relaxed">
+        Em espaço circular ou muito pequeno, use o símbolo isolado. O logotipo
+        completo perde legibilidade abaixo de 24&nbsp;px de altura.
+      </p>
+    </div>
+  </article>
+</div>

@@ -1,0 +1,32 @@
+---
+import SectionHeading from '~/components/SectionHeading.astro';
+import { audience } from '~/config/site';
+---
+
+<section id="para-quem" class="brand-surface ui-block scroll-mt-24">
+  <div class="ui-section">
+    <SectionHeading
+      eyebrow={audience.eyebrow}
+      title={audience.title}
+      lead={audience.lead}
+    />
+    <div class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      {audience.items.map(({ icon, title, text }) => (
+        <article
+          class="brand-card brand-card-hover flex flex-col items-start gap-4
+          p-6 transition-colors"
+        >
+          <span class="ui-icon-box" aria-hidden="true">
+            <span class={icon}></span>
+          </span>
+          <div>
+            <h3 class="brand-ink text-lg font-semibold">{title}</h3>
+            <p class="brand-ink-soft mt-2 text-[0.95rem] leading-relaxed">
+              {text}
+            </p>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

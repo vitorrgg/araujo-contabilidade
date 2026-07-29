@@ -1,0 +1,60 @@
+---
+export type Props = {
+  name: string;
+  hex: string;
+  role: string;
+  usage: string;
+  isDark?: boolean;
+};
+
+const { name, hex, role, usage, isDark = false } = Astro.props;
+
+/*
+ * Conversões impressas junto do hex: o manual precisa servir tanto pro site
+ * (HEX/RGB) quanto pra gráfica (CMYK aproximado, sem perfil de cor).
+ */
+const toRgb = (value: string) => {
+  const n = parseInt(value.replace('#', ''), 16);
+  return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+};
+const [r, g, b] = toRgb(hex);
+const toCmyk = () => {
+  const [rr, gg, bb] = [r / 255, g / 255, b / 255];
+  const k = 1 - Math.max(rr, gg, bb);
+  if (k === 1) return [0, 0, 0, 100];
+  const c = (1 - rr - k) / (1 - k);
+  const m = (1 - gg - k) / (1 - k);
+  const y = (1 - bb - k) / (1 - k);
+  return [c, m, y, k].map((v) => Math.round(v * 100));
+};
+const cmyk = toCmyk();
+---
+
+<article class="manual-keep brand-card overflow-hidden">
+  <div
+    class="flex h-32 items-end p-4"
+    style={`background-color: ${hex}; ${hex === '#FFFFFF'
+      ? 'box-shadow: inset 0 0 0 1px var(--brand-border);'
+      : ''}`}
+  >
+    <span
+      class="font-display text-sm font-semibold"
+      style={`color: ${isDark ? '#FFFFFF' : 'var(--brand-ink)'}`}
+    >
+      {role}
+    </span>
+  </div>
+  <div class="p-4">
+    <h3 class="brand-ink font-semibold">{name}</h3>
+    <p class="brand-ink-soft mt-1.5 text-sm leading-relaxed">{usage}</p>
+    <dl class="brand-divider mt-3 grid grid-cols-[auto_1fr] gap-x-3 gap-y-1
+      pt-3 font-mono text-xs brand-ink-muted">
+      <dt class="font-semibold">HEX</dt>
+      <dd>{hex.toUpperCase()}</dd>
+      <dt class="font-semibold">RGB</dt>
+      <dd>{r} {g} {b}</dd>
+      <dt class="font-semibold">CMYK</dt>
+      <dd>{cmyk.join(' ')}</dd>
+    </dl>
+  </div>
+</article>

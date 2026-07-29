@@ -1,0 +1,28 @@
+---
+import Logo from '~/components/Logo.astro';
+
+export type Props = {
+  variant: 'default' | 'mono' | 'negative' | 'negative-mono';
+  label: string;
+  usage: string;
+};
+
+const { variant, label, usage } = Astro.props;
+const isNegative = variant === 'negative' || variant === 'negative-mono';
+---
+
+<article class="manual-keep brand-card overflow-hidden">
+  <div
+    class:list={[
+      'flex h-40 items-center justify-center px-6',
+      isNegative && 'brand-surface-ink',
+    ]}
+    style={!isNegative ? 'background-color: var(--brand-surface-alt)' : undefined}
+  >
+    <Logo variant={variant} size={44} />
+  </div>
+  <div class="border-t brand-border p-4">
+    <h3 class="brand-ink font-semibold">{label}</h3>
+    <p class="brand-ink-soft mt-1.5 text-sm leading-relaxed">{usage}</p>
+  </div>
+</article>

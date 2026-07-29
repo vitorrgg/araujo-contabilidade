@@ -1,0 +1,27 @@
+---
+import SectionHeading from '~/components/SectionHeading.astro';
+import { services } from '~/config/site';
+---
+
+<section id="servicos" class="brand-surface-alt ui-block scroll-mt-24">
+  <div class="ui-section">
+    <SectionHeading
+      eyebrow={services.eyebrow}
+      title={services.title}
+      lead={services.lead}
+    />
+    <div class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      {services.items.map(({ icon, title, text }) => (
+        <article class="brand-card p-6">
+          <span class="ui-icon-box" aria-hidden="true">
+            <span class={icon}></span>
+          </span>
+          <h3 class="brand-ink mt-5 text-lg font-semibold">{title}</h3>
+          <p class="brand-ink-soft mt-2.5 text-[0.95rem] leading-relaxed">
+            {text}
+          </p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

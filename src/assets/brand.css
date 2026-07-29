@@ -1,0 +1,123 @@
+/*
+ * Camada de MARCA — separada da estrutura.
+ *
+ * As classes abaixo só falam em papel (`superfície`, `tinta`, `botão primário`)
+ * e nunca em cor concreta: tudo resolve via `--brand-*`, que é emitido por
+ * `src/components/BrandTokens.astro` a partir de `src/config/brand.ts`.
+ *
+ * Consequência prática: trocar a paleta da marca não exige tocar em nenhum
+ * componente, e o manual em /marca continua verdadeiro por construção.
+ */
+
+/* --- superfícies --- */
+.brand-surface { background-color: var(--brand-surface); }
+.brand-surface-alt { background-color: var(--brand-surface-alt); }
+/* Header fixo: superfície translúcida sem sair do token. */
+.brand-surface-sticky {
+  background-color: color-mix(in srgb, var(--brand-surface) 88%, transparent);
+}
+.brand-surface-soft { background-color: var(--brand-primary-soft); }
+.brand-surface-ink {
+  background-color: var(--brand-surface-ink);
+  color: var(--brand-primary-contrast);
+}
+
+/* --- texto --- */
+.brand-ink { color: var(--brand-ink); }
+.brand-ink-soft { color: var(--brand-ink-soft); }
+.brand-ink-muted { color: var(--brand-ink-muted); }
+.brand-text-primary { color: var(--brand-primary); }
+.brand-display {
+  font-family: var(--brand-font-display);
+  letter-spacing: -0.02em;
+}
+.brand-eyebrow {
+  color: var(--brand-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  font-weight: 600;
+}
+/* Sobre fundo escuro a cor primária perde contraste — sobe pro tom de apoio. */
+.brand-surface-ink .brand-eyebrow,
+.brand-surface-ink .brand-text-primary { color: var(--brand-accent); }
+.brand-surface-ink .brand-ink { color: var(--brand-primary-contrast); }
+.brand-surface-ink .brand-ink-soft { color: var(--brand-on-ink-soft); }
+.brand-surface-ink .brand-ink-muted { color: var(--brand-on-ink-muted); }
+
+/* --- estados ---
+ * O UnoCSS não aplica variante (`hover:`) em classe que não é utilitário dele,
+ * então `hover:brand-*` seria silenciosamente ignorado. Os estados das classes
+ * de marca moram aqui, em CSS mesmo. */
+.brand-link {
+  color: var(--brand-ink-soft);
+}
+.brand-link:hover {
+  color: var(--brand-primary);
+}
+.brand-surface-ink .brand-link {
+  color: var(--brand-on-ink-soft);
+}
+.brand-surface-ink .brand-link:hover {
+  color: var(--brand-primary-contrast);
+}
+.brand-card-hover:hover {
+  background-color: var(--brand-primary-soft);
+  border-color: var(--brand-primary-soft);
+}
+
+/* --- caixas --- */
+.brand-card {
+  background-color: var(--brand-surface);
+  border: 1px solid var(--brand-border);
+  border-radius: var(--brand-radius);
+}
+.brand-border { border-color: var(--brand-border); }
+.brand-divider { border-top: 1px solid var(--brand-border); }
+.brand-surface-ink .brand-card {
+  background-color: rgb(255 255 255 / 0.04);
+  border-color: rgb(255 255 255 / 0.12);
+}
+.brand-surface-ink .brand-border,
+.brand-surface-ink .brand-divider { border-color: rgb(255 255 255 / 0.12); }
+
+/* --- botões --- */
+.brand-btn,
+.brand-btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: var(--brand-radius);
+  font-weight: 600;
+  line-height: 1.2;
+  transition: background-color 200ms, color 200ms, border-color 200ms;
+}
+.brand-btn {
+  background-color: var(--brand-primary);
+  color: var(--brand-primary-contrast);
+}
+.brand-btn:hover { background-color: var(--brand-primary-hover); }
+.brand-btn-ghost {
+  border: 1px solid var(--brand-border);
+  color: var(--brand-ink);
+}
+.brand-btn-ghost:hover {
+  border-color: var(--brand-primary);
+  color: var(--brand-primary);
+  background-color: var(--brand-primary-soft);
+}
+/* Sobre fundo escuro o verde some contra o grafite — inverte pro branco. */
+.brand-surface-ink .brand-btn {
+  background-color: var(--brand-primary-contrast);
+  color: var(--brand-ink);
+}
+.brand-surface-ink .brand-btn:hover { background-color: var(--brand-primary-soft); }
+.brand-surface-ink .brand-btn-ghost {
+  border-color: rgb(255 255 255 / 0.25);
+  color: var(--brand-primary-contrast);
+}
+.brand-surface-ink .brand-btn-ghost:hover {
+  background-color: rgb(255 255 255 / 0.08);
+  border-color: rgb(255 255 255 / 0.4);
+  color: var(--brand-primary-contrast);
+}

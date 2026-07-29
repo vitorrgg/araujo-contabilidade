@@ -1,0 +1,51 @@
+---
+import Logo from '~/components/Logo.astro';
+
+/*
+ * Usos indevidos. Cada item mostra o erro de verdade (com o próprio
+ * componente distorcido), porque manual que só descreve em texto não impede
+ * ninguém de esticar a logo no PowerPoint.
+ */
+const misuses = [
+  { label: 'Não distorça as proporções', style: 'transform: scaleX(1.45)' },
+  { label: 'Não rotacione a assinatura', style: 'transform: rotate(-9deg)' },
+  { label: 'Não troque as cores da marca', filter: 'hue-rotate(190deg) saturate(2.2)' },
+  { label: 'Não aplique sobre fundo sem contraste', bg: 'var(--brand-ink-soft)' },
+  { label: 'Não adicione sombra ou contorno', filter: 'drop-shadow(3px 4px 0 rgba(0,0,0,.45))' },
+  { label: 'Não reescreva o nome em outra fonte', isTypo: true },
+];
+---
+
+<div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+  {misuses.map(({ label, style, filter, bg, isTypo }) => (
+    <article class="manual-keep brand-card overflow-hidden">
+      <div
+        class="relative flex h-32 items-center justify-center overflow-hidden px-6"
+        style={`background-color: ${bg ?? 'var(--brand-surface-alt)'}`}
+      >
+        <span style={[style, filter && `filter: ${filter}`].filter(Boolean).join('; ')}>
+          {isTypo ? (
+            <span
+              class="text-3xl font-bold uppercase italic brand-ink"
+              style="font-family: 'Times New Roman', serif; letter-spacing: 0.05em"
+            >
+              Araujo
+            </span>
+          ) : (
+            <Logo size={40} />
+          )}
+        </span>
+        <span
+          class="absolute right-3 top-3 inline-flex size-6 items-center
+          justify-center rounded-full bg-red-500 text-white"
+          aria-hidden="true"
+        >
+          <span class="i-lucide-x text-sm"></span>
+        </span>
+      </div>
+      <p class="brand-ink border-t brand-border p-4 text-sm font-medium">
+        {label}
+      </p>
+    </article>
+  ))}
+</div>

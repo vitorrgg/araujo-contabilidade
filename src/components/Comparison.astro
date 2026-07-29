@@ -1,0 +1,52 @@
+---
+import SectionHeading from '~/components/SectionHeading.astro';
+import { comparison, site } from '~/config/site';
+---
+
+<section class="brand-surface-alt ui-block">
+  <div class="ui-section">
+    <SectionHeading title={comparison.title} lead={comparison.lead} />
+
+    <div class="mx-auto mt-12 max-w-4xl overflow-x-auto">
+      <table class="w-full min-w-[38rem] border-collapse text-left">
+        <thead>
+          <tr class="border-b brand-border">
+            <th class="py-4 pr-4 text-sm font-semibold brand-ink-muted">
+              <span class="sr-only">Item comparado</span>
+            </th>
+            <th class="py-4 pr-4 text-sm font-semibold brand-ink-soft">
+              Contabilidade tradicional
+            </th>
+            <th class="py-4 text-sm font-semibold brand-text-primary">
+              {site.name}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {comparison.rows.map(({ label, them, us }) => (
+            <tr class="border-b brand-border last:border-0">
+              <th
+                scope="row"
+                class="py-4 pr-4 align-top text-[0.95rem] font-medium brand-ink"
+              >
+                {label}
+              </th>
+              <td class="py-4 pr-4 align-top text-[0.95rem] brand-ink-muted">
+                {them}
+              </td>
+              <td class="py-4 align-top text-[0.95rem] font-medium brand-ink">
+                <span class="inline-flex items-start gap-2">
+                  <span
+                    class="i-lucide-check brand-text-primary mt-0.5 shrink-0"
+                    aria-hidden="true"
+                  ></span>
+                  {us}
+                </span>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>

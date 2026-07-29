@@ -1,0 +1,28 @@
+---
+import { site } from '~/config/site';
+---
+
+<div
+  class="print-hidden sticky top-0 z-50 border-b brand-border
+  brand-surface-sticky backdrop-blur"
+>
+  <div class="ui-section flex items-center justify-between gap-4 py-3">
+    <a
+      href="/"
+      class="brand-link inline-flex items-center gap-2 text-sm font-medium"
+    >
+      <span class="i-lucide-arrow-left"></span>
+      <span class="hidden sm:inline">Voltar para</span> {site.domain}
+    </a>
+    <button type="button" class="brand-btn ui-btn-sm" data-print-manual>
+      <span class="i-lucide-printer"></span>
+      Salvar em PDF
+    </button>
+  </div>
+</div>
+
+<script>
+  document
+    .querySelector('[data-print-manual]')
+    ?.addEventListener('click', () => window.print());
+</script>

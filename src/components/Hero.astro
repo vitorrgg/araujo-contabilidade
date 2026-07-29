@@ -1,0 +1,54 @@
+---
+import { hero, waLink } from '~/config/site';
+---
+
+<section class="relative overflow-hidden brand-surface">
+  <!-- Halo verde discreto: dá profundidade sem exigir foto de banco de imagem,
+       que é o que costuma envelhecer mal em site de serviço. -->
+  <div
+    class="pointer-events-none absolute -top-40 left-1/2 -z-10 size-[46rem]
+    -translate-x-1/2 rounded-full opacity-60 blur-3xl brand-surface-soft"
+    aria-hidden="true"
+  >
+  </div>
+
+  <div class="ui-section pb-14 pt-16 md:pb-20 md:pt-24">
+    <div class="mx-auto max-w-3xl text-center">
+      <p class="brand-eyebrow text-sm">{hero.eyebrow}</p>
+      <h1 class="ui-title-lg mt-4">
+        {hero.title}
+        <span class="block brand-text-primary">{hero.titleHighlight}</span>
+      </h1>
+      <p class="brand-ink-soft mx-auto mt-6 max-w-2xl text-xl leading-relaxed">
+        {hero.lead}
+      </p>
+
+      <div class="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
+        <a
+          href={waLink()}
+          target="_blank"
+          rel="noopener"
+          class="brand-btn ui-btn-lg w-full sm:w-auto"
+        >
+          <span class="i-lucide-message-circle"></span>
+          Falar no WhatsApp
+        </a>
+        <a href="#planos" class="brand-btn-ghost ui-btn-lg w-full sm:w-auto">
+          Ver planos e preços
+        </a>
+      </div>
+
+      <ul
+        class="mt-9 flex flex-col items-center justify-center gap-x-7 gap-y-2.5
+        text-[0.95rem] brand-ink-soft sm:flex-row sm:flex-wrap"
+      >
+        {hero.proofs.map((proof) => (
+          <li class="inline-flex items-center gap-2">
+            <span class="i-lucide-check brand-text-primary"></span>
+            {proof}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,33 @@
+---
+import SectionHeading from '~/components/SectionHeading.astro';
+import Faq from '~/components/Faq.vue';
+import { faq } from '~/config/site';
+
+/*
+ * O acordeão é uma island Vue, mas as perguntas também vão em JSON-LD:
+ * é o que faz a resposta aparecer na busca e ser lida por LLM, que hoje é
+ * canal de aquisição tanto quanto o Google.
+ */
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faq.items.map(({ q, a }) => ({
+    '@type': 'Question',
+    name: q,
+    acceptedAnswer: { '@type': 'Answer', text: a },
+  })),
+};
+---
+
+<section id="duvidas" class="brand-surface ui-block scroll-mt-24">
+  <div class="ui-section">
+    <SectionHeading eyebrow={faq.eyebrow} title={faq.title} />
+    <Faq client:visible items={faq.items} />
+  </div>
+</section>
+
+<script
+  type="application/ld+json"
+  is:inline
+  set:html={JSON.stringify(faqSchema)}
+/>
