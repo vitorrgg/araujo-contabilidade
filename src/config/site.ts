@@ -13,7 +13,7 @@
  *   - `/pj`        a landing de aquisição, com preço, comparativo e FAQ.
  * O hero da home rotaciona entre públicos e cada mensagem leva pra página certa.
  *
- * ⚠️ PLACEHOLDERS a confirmar antes de publicar: `whatsapp.number`, `site.crc`,
+ * ⚠️ PLACEHOLDERS a confirmar antes de publicar: `site.crc`,
  * `site.domain`/`url`, e os preços em `pj.plans`.
  */
 
@@ -29,13 +29,16 @@ export const site = {
   /** Placeholder: trocar pelo CRC real quando o registro sair. */
   crc: 'CRC/MG 000.000/O-0',
   city: 'Belo Horizonte, MG',
-  email: 'contato@gccont.com.br',
+  email: 'gccontcontabilidade@gmail.com',
+  /** E.164 para `tel:` e schema.org; `phoneDisplay` é o que aparece na tela. */
+  phone: '+5531996306851',
+  phoneDisplay: '(31) 99630-6851',
   instagram: 'https://instagram.com/gccont',
 };
 
 export const whatsapp = {
-  /** Formato internacional, só dígitos. PLACEHOLDER. */
-  number: '5531900000000',
+  /** Formato internacional, só dígitos — é o que o wa.me espera. */
+  number: '5531996306851',
   message: 'Oi! Vim pelo site e quero falar com um especialista.',
 };
 

@@ -5,7 +5,7 @@ import Pillars from '~/components/home/Pillars.astro';
 import Differentials from '~/components/home/Differentials.astro';
 import PjFront from '~/components/home/PjFront.astro';
 import ContactSection from '~/components/home/ContactSection.astro';
-import { site, whatsapp } from '~/config/site';
+import { site } from '~/config/site';
 
 /*
  * Home institucional. Sem preço, de propósito: a home tem que sustentar tanto
@@ -23,7 +23,7 @@ const businessSchema = {
   description: site.description,
   url: site.url,
   email: site.email,
-  telephone: `+${whatsapp.number}`,
+  telephone: site.phone,
   areaServed: 'BR',
   address: {
     '@type': 'PostalAddress',

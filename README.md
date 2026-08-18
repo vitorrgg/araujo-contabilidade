@@ -39,6 +39,7 @@ npm run deploy     # firebase deploy --only hosting
 | `/servicos` | catálogo completo em 4 frentes, com âncoras `#contabil` `#pessoal` `#legalizacao` `#consultoria` | não |
 | `/pj` | landing de aquisição da frente de PJ: planos, comparativo, FAQ | **sim** |
 | `/marca` | manual de identidade visual (`noindex`, fora do sitemap e do robots) | — |
+| `/marca/estudo-logo` | as 3 direções de logo em avaliação, com os testes de tamanho real | — |
 
 O **hero da home rotaciona entre públicos** e cada estado leva pra página certa
 (`/pj`, `/servicos#contabil`, `#consultoria`, `#pessoal`). É o comportamento
@@ -138,8 +139,6 @@ ativar "gráficos de segundo plano".
 
 ## Pendências antes de publicar
 
-- [ ] **Número do WhatsApp** — `whatsapp.number` em `src/config/site.ts` está
-      com `5531900000000`
 - [ ] **Domínio** — `site.domain` / `site.url` assumem `gccont.com.br`;
       confirmar registro (e o `robots.txt`, que aponta pro sitemap nesse domínio)
 - [ ] **CRC e cidade** — `site.crc` está com número fictício no rodapé e no
@@ -147,7 +146,15 @@ ativar "gráficos de segundo plano".
 - [ ] **Preços** — R$ 249 / R$ 349 em `pj.plans` são hipótese a partir da
       conversa (mercado cobra R$ 400–450; a ideia era entrar em R$ 250–300)
 - [ ] **A logo que o Gabriel gerou** — se ela for o caminho, mandar o arquivo e
-      o nome da fonte; o `Logo.astro` é substituível sem tocar em mais nada
+      o nome da fonte; o `Logo.astro` é substituível sem tocar em mais nada.
+      Ela precisa passar pela mesma bateria de `/marca/estudo-logo` antes de
+      qualquer comparação
+- [ ] **Decidir a direção do logo** — `/marca/estudo-logo` tem as 3 opções e o
+      que cada teste já eliminou. Escolhida a direção, ela sobe para o
+      `Logo.astro` (o contrato de props é o mesmo) e saem do repo a página, o
+      `LogoConcept.astro` e o `src/config/logo-concepts.ts`
+- [ ] **Busca no INPI** — para o nome `gccont` e para a forma escolhida, antes
+      de investir em refinamento
 - [ ] **Banner de compartilhamento** (og:image, 1200×630) — hoje o `<meta>` sai
       omitido de propósito, em vez de apontar pra um arquivo que não existe
 - [ ] **Formulário** — hoje todo CTA vai pro WhatsApp, como combinado pra v1.

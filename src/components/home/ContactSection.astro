@@ -28,11 +28,13 @@ import { contact, site, waLink } from '~/config/site';
             <span class="i-lucide-message-circle"></span>
           </span>
           <div>
-            <dt class="brand-ink font-semibold">WhatsApp</dt>
+            <dt class="brand-ink font-semibold">WhatsApp e telefone</dt>
             <dd class="mt-1 text-[0.95rem]">
               <a href={waLink()} target="_blank" rel="noopener" class="brand-link">
-                Falar agora
+                {site.phoneDisplay}
               </a>
+              <span class="brand-ink-muted"> · </span>
+              <a href={`tel:${site.phone}`} class="brand-link">ligar</a>
             </dd>
           </div>
         </div>

@@ -27,7 +27,8 @@ import { site } from '~/config/site';
         <div class="text-[0.7rem] leading-relaxed brand-ink-soft">
           <p class="brand-ink font-semibold">Gabriel Araujo</p>
           <p>Contador · {site.crc}</p>
-          <p class="mt-1.5">{site.email}</p>
+          <p class="mt-1.5">{site.phoneDisplay}</p>
+          <p>{site.email}</p>
           <p>{site.domain}</p>
         </div>
       </div>
@@ -84,7 +85,8 @@ import { site } from '~/config/site';
           <p class="brand-text-primary text-[0.8rem] font-medium">
             {site.name} · Contador
           </p>
-          <p class="mt-1.5 text-[0.8rem]">{site.email} · {site.domain}</p>
+          <p class="mt-1.5 text-[0.8rem]">{site.phoneDisplay} · {site.email}</p>
+          <p class="text-[0.8rem]">{site.domain}</p>
         </div>
       </div>
     </div>
