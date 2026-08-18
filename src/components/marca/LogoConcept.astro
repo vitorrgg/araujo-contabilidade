@@ -1,0 +1,276 @@
+---
+/*
+ * Estudo de logo — as direções desenhadas.
+ *
+ * O contrato de props é DELIBERADAMENTE o mesmo de `src/components/Logo.astro`:
+ * a direção escolhida sobe para lá e nenhuma chamada no site precisa mudar.
+ *
+ * O emblema é SVG desenhado (vetor de verdade, escala sem perda e vai para o
+ * favicon direto). O logotipo continua sendo TEXTO em Playfair, não path — nesta
+ * fase o que está em avaliação é o conceito, e transformar a palavra em curva
+ * agora só congelaria uma decisão que ainda vai mudar.
+ *
+ * ⚠️ A direção `gabriel` é uma RECONSTRUÇÃO APROXIMADA da proposta que ele
+ * enviou, feita para que ela passe pela mesma bateria de testes que as outras.
+ * As proporções (monograma → logotipo → tagline) foram medidas da imagem dele;
+ * as letras são Playfair aplicada, não o desenho original. Ela testa a
+ * CONSTRUÇÃO do bloco, não a qualidade da letra — para testar a letra é preciso
+ * o vetor original.
+ *
+ * Cores saem dos tokens `--brand-*`, então os conceitos acompanham a paleta.
+ */
+import { site } from '~/config/site';
+import type { ConceptId } from '~/config/logo-concepts';
+
+export type Props = {
+  concept: ConceptId;
+  variant?: 'default' | 'mono' | 'negative' | 'negative-mono';
+  layout?: 'inline' | 'stacked';
+  /** Altura do emblema em px; o logotipo escala junto. */
+  size?: number;
+  /** Só o emblema, sem o logotipo (avatar, favicon, selo). */
+  symbolOnly?: boolean;
+  withTagline?: boolean;
+  as?: 'div' | 'h1' | 'h2';
+  class?: string;
+};
+
+const {
+  concept,
+  variant = 'default',
+  layout = 'inline',
+  size = 40,
+  symbolOnly = false,
+  withTagline = false,
+  as: Tag = 'div',
+  class: className = '',
+} = Astro.props;
+
+const isNegative = variant === 'negative' || variant === 'negative-mono';
+const isMono = variant === 'mono' || variant === 'negative-mono';
+const isStacked = layout === 'stacked';
+const isGabriel = concept === 'gabriel';
+
+/*
+ * `mark` é a tinta principal (dourada, ou branca quando a versão abre mão do
+ * dourado). `markAlt` é a segunda entrada — as direções 03 e 04 usam, porque
+ * ali duas metades precisam se distinguir.
+ * Em negativo o emblema perde o fundo em vez de virar um selo branco chapado:
+ * sobre azul-marinho o dourado mantém 5,6:1 e fica muito mais elegante.
+ */
+const mark = isMono ? 'var(--brand-primary-contrast)' : 'var(--brand-accent)';
+const markAlt = 'var(--brand-primary-contrast)';
+const boxFill = isNegative ? 'none' : 'var(--brand-ink)';
+
+const wordmarkColor = isNegative
+  ? 'var(--brand-primary-contrast)'
+  : 'var(--brand-ink)';
+const taglineColor = isNegative
+  ? 'var(--brand-on-ink-muted)'
+  : 'var(--brand-ink-muted)';
+/* O fio duplo sob o logotipo some junto com o dourado na versão de uma cor. */
+const ruleColor = isNegative || !isMono ? mark : 'var(--brand-ink)';
+
+const wordSize = size * (isStacked ? 0.58 : 0.5);
+const taglineSize = Math.max(wordSize * 0.26, 6.5);
+const ruleWeight = Math.max(wordSize * 0.05, 1);
+
+/*
+ * Geometria da direção 03, calculada e não chutada: dois arcos de 150° num
+ * círculo de raio 30, o segundo sendo o primeiro girado 180° em torno de (50,50).
+ * As pontas caem em 105° e 255°, o que abre duas frestas iguais no topo e na
+ * base — é a fresta que faz o anel não virar um "O".
+ */
+const ARC_A = 'M 42.24 21.02 A 30 30 0 0 0 42.24 78.98';
+const ARC_B = 'M 57.76 78.98 A 30 30 0 0 0 57.76 21.02';
+/* Direção 02: quadrado com o canto superior direito cortado (a dobra da folha).
+ * O fio interno é o mesmo contorno deslocado 8 unidades para dentro — na
+ * diagonal isso dá (-5,66, +5,66), daí os números quebrados. */
+const SEAL_OUTER = 'M0 0 H70 L100 30 V100 H0 Z';
+const SEAL_INNER = 'M8 8 H66.69 L92 33.31 V92 H8 Z';
+
+/*
+ * Direção 04 — proporções MEDIDAS da imagem do Gabriel, e é delas que sai o
+ * diagnóstico de tamanho mínimo:
+ *   altura da caixa do GCCONT  ≈ 0,435 da altura do GC
+ *   altura da caixa da tagline ≈ 0,109 da altura do GC
+ * Nenhum arredondamento "para ficar legível" — arredondar aqui esconderia
+ * exatamente o problema que o teste precisa mostrar.
+ */
+const gabrielCap = 0.53 * size; /* altura de caixa alta do monograma */
+const gabrielWordSize = (gabrielCap * 0.435) / 0.7;
+const gabrielTaglineSize = (gabrielCap * 0.109) / 0.7;
+const gabrielGap = size * 0.16;
+/*
+ * Sobre fundo claro o dourado 500 não passa AA como texto (2,8:1) — a tagline
+ * do Gabriel é texto dourado, então na versão positiva ela TEM que virar o
+ * dourado escuro. Sobre azul-marinho o 500 é o uso correto.
+ */
+const gabrielGold = isMono
+  ? (isNegative ? 'var(--brand-primary-contrast)' : 'var(--brand-ink)')
+  : (isNegative ? 'var(--brand-accent)' : 'var(--brand-accent-strong)');
+const gabrielG = isNegative || symbolOnly
+  ? 'var(--brand-primary-contrast)'
+  : 'var(--brand-ink)';
+const gabrielC = isMono ? gabrielG : 'var(--brand-accent)';
+---
+
+<Tag
+  class:list={[
+    'inline-flex items-center leading-none',
+    isStacked ? 'flex-col text-center' : '',
+    !isGabriel && (isStacked ? 'gap-3' : 'gap-3'),
+    className,
+  ]}
+  style={isGabriel ? `gap: ${gabrielGap}px` : undefined}
+  aria-label={site.name}
+>
+  <svg
+    viewBox="0 0 100 100"
+    width={size}
+    height={size}
+    role="img"
+    aria-hidden="true"
+    class="shrink-0 overflow-visible"
+    style="display: block"
+  >
+    {concept === 'fio-duplo' && (
+      <>
+        {!isNegative && <rect width="100" height="100" rx="14" fill={boxFill} />}
+        <text
+          x="50"
+          y="44"
+          text-anchor="middle"
+          fill={mark}
+          style={'font-family: var(--brand-font-display); font-size: 46px;'
+            + ' font-weight: 700; letter-spacing: -1.4px'}
+        >gc</text>
+        <rect x="22" y="64" width="56" height="4.5" fill={mark} />
+        <rect x="22" y="76" width="56" height="4.5" fill={mark} />
+      </>
+    )}
+
+    {concept === 'selo' && (
+      <>
+        <path
+          d={SEAL_OUTER}
+          fill={boxFill}
+          stroke={isNegative ? mark : 'none'}
+          stroke-width={isNegative ? 3 : 0}
+        />
+        {!isNegative && (
+          <path d={SEAL_INNER} fill="none" stroke={mark} stroke-width="1.6" opacity="0.75" />
+        )}
+        <text
+          x="48"
+          y="57"
+          text-anchor="middle"
+          fill={mark}
+          style={'font-family: var(--brand-font-display); font-size: 44px;'
+            + ' font-weight: 700; letter-spacing: -1.3px'}
+        >gc</text>
+      </>
+    )}
+
+    {concept === 'partida' && (
+      <>
+        {!isNegative && <rect width="100" height="100" rx="14" fill={boxFill} />}
+        <path d={ARC_A} fill="none" stroke={markAlt} stroke-width="11" />
+        <path d={ARC_B} fill="none" stroke={mark} stroke-width="11" />
+      </>
+    )}
+
+    {isGabriel && (
+      <>
+        {/* O bloco do Gabriel não tem caixa. Ela só entra no `symbolOnly`,
+            porque avatar precisa de fundo — e é justamente a peça que falta no
+            kit dele: sem caixa, o G branco não existe sobre claro. */}
+        {symbolOnly && !isNegative && <rect width="100" height="100" rx="14" fill={boxFill} />}
+        {/* G e C entrelaçados: o C entra 12 unidades por dentro do G. A ordem
+            de pintura é a dele — o dourado por cima. */}
+        <text
+          x="58"
+          y="70"
+          text-anchor="end"
+          fill={gabrielG}
+          style={'font-family: var(--brand-font-display); font-size: 76px;'
+            + ' font-weight: 500'}
+        >G</text>
+        <text
+          x="46"
+          y="70"
+          text-anchor="start"
+          fill={gabrielC}
+          style={'font-family: var(--brand-font-display); font-size: 76px;'
+            + ' font-weight: 500'}
+        >C</text>
+      </>
+    )}
+  </svg>
+
+  {/* O fio vertical dourado que separa monograma e logotipo — só a direção 04
+      tem, e ele não existe na versão empilhada (que o kit dele também não tem). */}
+  {isGabriel && !symbolOnly && !isStacked && (
+    <span
+      aria-hidden="true"
+      style={`width: ${Math.max(size * 0.016, 1)}px; height: ${size * 0.92}px;
+        background-color: ${isMono ? gabrielG : 'var(--brand-accent)'}`}
+    ></span>
+  )}
+
+  {!symbolOnly && (
+    <span
+      class:list={[
+        'flex flex-col justify-center',
+        isGabriel ? 'gap-[0.35em]' : 'gap-[0.3em]',
+        isStacked && 'items-center',
+      ]}
+    >
+      {isGabriel ? (
+        <>
+          <span
+            class="brand-display leading-none uppercase"
+            style={`font-size: ${gabrielWordSize}px; color: ${wordmarkColor};
+              letter-spacing: 0.02em; font-weight: 500`}
+          >{site.name}</span>
+          {/* Sempre visível: na proposta do Gabriel a tagline é parte fixa do
+              bloco, não elemento opcional. É o que torna o tamanho mínimo do
+              conjunto tão alto. */}
+          <span
+            class="uppercase leading-none"
+            style={`font-size: ${gabrielTaglineSize}px; letter-spacing: 0.18em;
+              color: ${gabrielGold}`}
+          >Assessoria e consultoria contábil</span>
+        </>
+      ) : (
+        <>
+          <span
+            class="brand-display leading-none"
+            style={`font-size: ${wordSize}px; color: ${wordmarkColor};
+              letter-spacing: -0.015em`}
+          ><span style="font-weight: 700">gc</span><span
+            style="font-weight: 400">cont</span></span>
+
+          {/* O fio duplo é o conceito da direção 01: ele fecha o logotipo como
+              um total fechado, e por isso acompanha a largura exata da palavra. */}
+          {concept === 'fio-duplo' && (
+            <span class="flex flex-col" style={`gap: ${ruleWeight * 1.6}px; margin-top: ${ruleWeight}px`}>
+              <span style={`height: ${ruleWeight}px; background-color: ${ruleColor}`}></span>
+              <span style={`height: ${ruleWeight}px; background-color: ${ruleColor}`}></span>
+            </span>
+          )}
+
+          {withTagline && (
+            <span
+              class="font-semibold uppercase leading-none"
+              style={`font-size: ${taglineSize}px; letter-spacing: 0.22em;
+                color: ${taglineColor}`}
+            >
+              {site.tagline}
+            </span>
+          )}
+        </>
+      )}
+    </span>
+  )}
+</Tag>

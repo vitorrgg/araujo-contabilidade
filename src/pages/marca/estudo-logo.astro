@@ -1,0 +1,311 @@
+---
+import Layout from '~/layouts/Layout.astro';
+import LogoConcept from '~/components/marca/LogoConcept.astro';
+import { site } from '~/config/site';
+import { concepts, tests, findings } from '~/config/logo-concepts';
+
+/*
+ * Estudo de logo — página interna de decisão, não peça do site.
+ *
+ * A regra que organiza esta página: NADA é julgado no tamanho em que foi
+ * desenhado. Cada direção aparece nos tamanhos em que a marca realmente vive
+ * (favicon, header, avatar redondo), em uma cor e desfocada — porque é aí que
+ * logo bonito em apresentação costuma morrer.
+ *
+ * Fica fora do índice pelo `noIndex` e fora do sitemap pelo filtro `/marca` em
+ * `astro.config.mjs`. Sai do repo junto com `src/config/logo-concepts.ts`
+ * quando a direção estiver escolhida.
+ */
+
+const rules = [
+  'No máximo duas cores. Zero degradê, zero sombra, zero contorno decorativo.',
+  'O símbolo precisa fechar dentro de um círculo — WhatsApp e Instagram cortam.',
+  'Se a marca só funciona com o dourado, ela não tem estrutura: o teste de uma'
+    + ' cor é eliminatório, não opcional.',
+  'Nenhuma das três é registrável sem busca no INPI antes.',
+];
+---
+
+<Layout
+  title={`Estudo de logo · ${site.name}`}
+  description="Comparação das três direções de logo em avaliação."
+  isBare
+  noIndex
+>
+  <!-- Capa -->
+  <section class="ui-block brand-surface-ink">
+    <div class="ui-section">
+      <p class="brand-eyebrow text-sm">Estudo interno · não publicado</p>
+      <h1 class="ui-title-lg mt-4 max-w-3xl">Quatro direções de logo</h1>
+      <p class="ui-lead max-w-2xl">
+        As três primeiras partem da identidade que já existe em
+        <code class="brand-text-accent">src/config/brand.ts</code> — azul-marinho,
+        dourado, canto reto e serifada de alto contraste. A quarta é a proposta
+        do Gabriel, reconstruída em vetor para passar pela mesma bateria.
+      </p>
+      <div class="mt-10 flex flex-wrap items-center gap-x-12 gap-y-8">
+        {concepts.map((c) => (
+          <LogoConcept concept={c.id} variant="negative" size={48} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Como julgar -->
+  <section class="ui-block-sm brand-surface-alt">
+    <div class="ui-section">
+      <h2 class="ui-title text-2xl! sm:text-3xl!">Antes de escolher pela beleza</h2>
+      <p class="ui-lead max-w-2xl text-base!">
+        Logo não se aprova no tamanho da apresentação. As regras abaixo eliminam
+        opção; a preferência estética decide só o que sobrar.
+      </p>
+      <ul class="mt-8 grid gap-4 sm:grid-cols-2">
+        {rules.map((rule) => (
+          <li class="brand-card flex gap-3 p-5">
+            <span class="brand-rule mt-2.5 w-4! shrink-0"></span>
+            <span class="brand-ink-soft text-sm leading-relaxed">{rule}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- Uma seção por direção -->
+  {concepts.map((c, index) => (
+    <section class:list={['ui-block', index % 2 === 1 && 'brand-surface-alt']}>
+      <div class="ui-section">
+        <div class="grid gap-12 lg:grid-cols-[1fr_1.15fr] lg:gap-16">
+          <div>
+            <p class="brand-eyebrow text-sm">Direção {c.order}</p>
+            <h2 class="ui-title mt-3 text-3xl! sm:text-4xl!">{c.name}</h2>
+            <p class="brand-ink-soft mt-2 text-lg">{c.claim}</p>
+
+            {c.isReconstruction && (
+              <p
+                class="mt-6 border-l-2 py-2 pl-4 text-sm leading-relaxed"
+                style="border-color: var(--brand-accent); color: var(--brand-ink-soft)"
+              >
+                <strong class="brand-ink">Não é o arquivo do Gabriel.</strong> É uma
+                reconstrução em vetor, com as proporções medidas da imagem que ele
+                enviou, feita para que a proposta passe pela mesma bateria das
+                outras três. As letras são Playfair aplicada — o que está sendo
+                testado aqui é a <em>construção</em> do bloco, não o desenho da
+                letra dele. Para testar a letra é preciso o vetor original.
+              </p>
+            )}
+
+            <p class="brand-ink-soft mt-6 leading-relaxed">{c.rationale}</p>
+
+            <div class="mt-8 grid gap-4">
+              <div class="brand-card p-5">
+                <h3 class="brand-text-accent text-xs font-semibold uppercase tracking-widest">
+                  O que compra
+                </h3>
+                <p class="brand-ink-soft mt-2 text-sm leading-relaxed">{c.strength}</p>
+              </div>
+              <div class="brand-card p-5">
+                <h3 class="brand-ink-muted text-xs font-semibold uppercase tracking-widest">
+                  O que custa
+                </h3>
+                <p class="brand-ink-soft mt-2 text-sm leading-relaxed">{c.risk}</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid content-start gap-5 sm:grid-cols-2">
+            <div class="brand-card flex h-44 items-center justify-center brand-surface">
+              <LogoConcept concept={c.id} size={52} />
+            </div>
+            {/* `brand-card` e `brand-surface-ink` na MESMA tag brigam: as duas
+                declaram background com a mesma especificidade e `.brand-card`
+                vem depois em brand.css, então o fundo escuro seria ignorado e o
+                logotipo branco sumiria no branco. Por isso o aninhamento — é a
+                mesma solução que `marca/LogoVariant.astro` usa. */}
+            <div class="brand-card overflow-hidden">
+              <div class="brand-surface-ink flex h-44 items-center justify-center">
+                <LogoConcept concept={c.id} variant="negative" size={52} />
+              </div>
+            </div>
+            <div class="brand-card flex h-44 items-center justify-center brand-surface sm:col-span-2">
+              <LogoConcept concept={c.id} layout="stacked" size={64} withTagline />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  ))}
+
+  <!-- Os testes, lado a lado -->
+  <section class="ui-block brand-surface-alt">
+    <div class="ui-section">
+      <p class="brand-eyebrow text-sm">A parte que decide</p>
+      <h2 class="ui-title mt-3">Os mesmos testes nas quatro</h2>
+      <p class="ui-lead max-w-2xl">
+        Tudo abaixo está no tamanho real, sem ampliação, e sobre o fundo que
+        aquele contexto realmente tem. Olhe de longe antes de encostar o rosto
+        na tela.
+      </p>
+
+      <div class="mt-12 grid gap-8">
+        {tests.map((test) => (
+          <div class="brand-card p-6 sm:p-8">
+            <div class="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
+              <h3 class="brand-ink font-semibold">{test.label}</h3>
+              <p class="brand-ink-muted text-sm">{test.detail}</p>
+            </div>
+
+            <div class="mt-6 grid grid-cols-2 gap-6 lg:grid-cols-4">
+              {concepts.map((c) => (
+                <div class="flex flex-col items-center gap-4">
+                  <div
+                    class:list={[
+                      'flex h-24 w-full items-center justify-center rounded border brand-border',
+                      test.surface === 'ink' && 'brand-surface-ink',
+                      test.surface === 'white' && 'brand-surface',
+                      test.surface === 'alt' && 'brand-surface-alt',
+                    ]}
+                  >
+                    {test.id === 'favicon' && (
+                      <LogoConcept concept={c.id} size={16} symbolOnly />
+                    )}
+                    {test.id === 'header' && (
+                      <LogoConcept concept={c.id} size={32} />
+                    )}
+                    {test.id === 'whatsapp' && (
+                      <div class="size-10 overflow-hidden rounded-full">
+                        <LogoConcept concept={c.id} size={40} symbolOnly />
+                      </div>
+                    )}
+                    {test.id === 'instagram' && (
+                      <div class="size-24 overflow-hidden rounded-full">
+                        <LogoConcept concept={c.id} size={96} symbolOnly />
+                      </div>
+                    )}
+                    {test.id === 'mono' && (
+                      <LogoConcept concept={c.id} variant="mono" size={44} />
+                    )}
+                    {test.id === 'negativo' && (
+                      <LogoConcept concept={c.id} variant="negative" size={40} />
+                    )}
+                    {test.id === 'silhueta' && (
+                      <div style="filter: blur(2.5px)">
+                        <LogoConcept concept={c.id} size={44} symbolOnly />
+                      </div>
+                    )}
+                  </div>
+                  <p class="brand-ink-muted text-xs uppercase tracking-widest">{c.name}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- O que a bateria já respondeu -->
+  <section class="ui-block brand-surface-ink">
+    <div class="ui-section">
+      <p class="brand-eyebrow text-sm">Resultado, não opinião</p>
+      <h2 class="ui-title mt-3">O que os testes já mostraram</h2>
+      <p class="ui-lead max-w-2xl">
+        Nenhum destes pontos é preferência estética — todos saíram da grade
+        acima, e a proposta do Gabriel passou pela mesma régua que as outras
+        três. Ordenados por gravidade.
+      </p>
+
+      <ol class="mt-12 grid gap-6 md:grid-cols-2">
+        {findings.map((f, i) => (
+          <li class="brand-card flex gap-5 p-6">
+            <span class="brand-display brand-text-accent shrink-0 text-3xl leading-none">
+              {String(i + 1).padStart(2, '0')}
+            </span>
+            <div>
+              <h3 class="brand-ink font-semibold leading-snug">{f.title}</h3>
+              <p class="brand-ink-soft mt-2 text-sm leading-relaxed">{f.detail}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- Aplicação simulada: onde a marca aparece de verdade -->
+  <section class="ui-block">
+    <div class="ui-section">
+      <p class="brand-eyebrow text-sm">No lugar em que vive</p>
+      <h2 class="ui-title mt-3">Header e conversa</h2>
+      <p class="ui-lead max-w-2xl">
+        O header é onde a marca mais aparece; o avatar do WhatsApp é onde ela
+        aparece primeiro, já que hoje todo CTA do site termina lá.
+      </p>
+
+      <div class="mt-10 grid gap-8 sm:grid-cols-2 xl:grid-cols-4">
+        {concepts.map((c) => (
+          <div class="grid gap-5">
+            <p class="brand-eyebrow text-xs">{c.order} · {c.name}</p>
+
+            <div class="brand-card overflow-hidden">
+              <div class="flex items-center justify-between gap-4 border-b brand-border px-4 py-3">
+                <LogoConcept concept={c.id} size={30} />
+                <div class="hidden items-center gap-4 sm:flex">
+                  <span class="brand-ink-soft text-xs">Serviços</span>
+                  <span class="brand-btn ui-btn-sm text-xs!">Falar agora</span>
+                </div>
+              </div>
+              <div class="brand-surface-alt px-4 py-6">
+                <div class="h-2 w-2/3 rounded bg-ink-200"></div>
+                <div class="mt-2.5 h-2 w-1/2 rounded bg-ink-100"></div>
+              </div>
+            </div>
+
+            <div class="brand-card flex items-start gap-3 p-4">
+              <div class="size-11 shrink-0 overflow-hidden rounded-full">
+                <LogoConcept concept={c.id} size={44} symbolOnly />
+              </div>
+              <div class="min-w-0">
+                <p class="brand-ink text-sm font-semibold">{site.legalName}</p>
+                <p class="brand-ink-muted mt-1 text-xs leading-relaxed">
+                  Oi! Vi que você veio pelo site — me conta o que você precisa?
+                </p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Pendências -->
+  <section class="ui-block-sm brand-surface-alt">
+    <div class="ui-section">
+      <h2 class="ui-title text-2xl! sm:text-3xl!">O que falta para decidir</h2>
+      <ul class="mt-6 grid max-w-3xl gap-3">
+        <li class="brand-card p-4 brand-ink-soft text-sm leading-relaxed">
+          <strong class="brand-ink">O vetor original do Gabriel.</strong>
+          A direção 04 aqui é reconstrução: ela testou a construção do bloco, não
+          o desenho da letra. Com o arquivo (SVG, AI ou PDF) e o nome da fonte, a
+          grade roda em cima do original — e o item de uma cor pode ser
+          reavaliado já com o recorte de respiro aplicado.
+        </li>
+        <li class="brand-card p-4 brand-ink-soft text-sm leading-relaxed">
+          <strong class="brand-ink">Busca no INPI para “gccont”</strong> e para a
+          forma escolhida. Fazer antes de investir em refinamento, não depois.
+        </li>
+        <li class="brand-card p-4 brand-ink-soft text-sm leading-relaxed">
+          <strong class="brand-ink">A fonte do logotipo.</strong> Todas aqui estão
+          em Playfair Display, que é Google Font onipresente e tem haste fina que
+          some em corpo pequeno. Fechada a direção, a palavra vira curva
+          desenhada — aí ela é da gccont e de mais ninguém.
+        </li>
+        <li class="brand-card p-4 brand-ink-soft text-sm leading-relaxed">
+          <strong class="brand-ink">Caixa alta ou minúscula.</strong> A 04 usa
+          <code>GCCONT</code>; o site usa <code>gccont</code>, que preserva a
+          leitura “iniciais + atividade”. Caixa alta é mais institucional para o
+          due diligence e mais fria para o PJ que vem do anúncio — não é defeito
+          de ninguém, é uma escolha que precisa ser feita.
+        </li>
+      </ul>
+    </div>
+  </section>
+</Layout>
