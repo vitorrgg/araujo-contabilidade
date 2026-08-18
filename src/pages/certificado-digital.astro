@@ -1,0 +1,78 @@
+---
+import Layout from '~/layouts/Layout.astro';
+import Hero from '~/components/certificado/Hero.astro';
+import Uses from '~/components/certificado/Uses.astro';
+import Products from '~/components/certificado/Products.astro';
+import MediaComparison from '~/components/certificado/MediaComparison.astro';
+import StepsSection from '~/components/StepsSection.astro';
+import FaqSection from '~/components/FaqSection.astro';
+import FinalCta from '~/components/FinalCta.astro';
+import { certificado } from '~/config/certificado';
+import { site } from '~/config/site';
+
+/*
+ * Página de produto. A ordem segue a decisão de compra de quem chega pela
+ * busca: descobre que precisa (usos) → descobre qual (e-CPF ou e-CNPJ) →
+ * descobre a mídia (A1 ou A3) → entende o processo → tira dúvida → pede.
+ *
+ * Sem preço em lugar nenhum — ver o aviso em `src/config/certificado.ts`.
+ */
+const productSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  serviceType: 'Emissão de certificado digital ICP-Brasil',
+  name: 'Certificado digital e-CPF e e-CNPJ',
+  description: certificado.hero.lead,
+  provider: {
+    '@type': 'AccountingService',
+    name: site.name,
+    url: site.url,
+    telephone: site.phone,
+    email: site.email,
+  },
+  areaServed: 'BR',
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Certificados digitais',
+    itemListElement: certificado.products.items.map(({ title, text }) => ({
+      '@type': 'Offer',
+      itemOffered: { '@type': 'Service', name: title, description: text },
+    })),
+  },
+};
+---
+
+<Layout
+  title={`Certificado digital e-CPF e e-CNPJ · ${site.name}`}
+  description="Emissão e renovação de certificado digital ICP-Brasil, e-CPF e
+    e-CNPJ, em A1 ou A3, com validação por videoconferência. A gente instala e
+    testa com você."
+>
+  <script
+    slot="head"
+    type="application/ld+json"
+    is:inline
+    set:html={JSON.stringify(productSchema)}
+  />
+  <Hero />
+  <Uses />
+  <Products />
+  <MediaComparison />
+  <StepsSection
+    eyebrow={certificado.howItWorks.eyebrow}
+    title={certificado.howItWorks.title}
+    steps={certificado.howItWorks.steps}
+  />
+  <FaqSection
+    eyebrow={certificado.faq.eyebrow}
+    title={certificado.faq.title}
+    items={certificado.faq.items}
+  />
+  <FinalCta
+    title={certificado.finalCta.title}
+    lead={certificado.finalCta.lead}
+    ctaLabel={certificado.finalCta.ctaLabel}
+    ctaMessage={certificado.finalCta.ctaMessage}
+    note={certificado.finalCta.note}
+  />
+</Layout>

@@ -1,0 +1,76 @@
+---
+import SectionHeading from '~/components/SectionHeading.astro';
+import { certificado } from '~/config/certificado';
+import { waLink } from '~/config/site';
+
+/*
+ * Mesma estrutura dos planos de /pj — dois cartões, um destacado — mas sem
+ * preço: o valor do certificado depende da AC parceira e da tabela vigente,
+ * então o cartão termina em orçamento e não em contratação.
+ */
+const { products } = certificado;
+---
+
+<section id="certificados" class="brand-surface ui-block scroll-mt-24">
+  <div class="ui-section">
+    <SectionHeading
+      eyebrow={products.eyebrow}
+      title={products.title}
+      lead={products.lead}
+    />
+
+    <div class="mx-auto mt-12 grid max-w-4xl gap-6 md:grid-cols-2">
+      {products.items.map((product) => (
+        <article
+          id={product.id}
+          class:list={[
+            'brand-card relative flex flex-col p-7 scroll-mt-24 md:p-8',
+            product.isFeatured && 'ring-2',
+          ]}
+          style={product.isFeatured
+            ? '--un-ring-color: var(--brand-primary)'
+            : undefined}
+        >
+          <p class="brand-eyebrow text-xs">{product.badge}</p>
+          <h3 class="brand-display brand-ink mt-3 text-3xl font-bold">
+            {product.title}
+          </h3>
+          <p class="brand-ink-soft mt-3 text-[0.95rem] leading-relaxed">
+            {product.text}
+          </p>
+
+          <span class="brand-rule mt-6"></span>
+
+          <ul class="mt-6 flex-1 space-y-3">
+            {product.features.map((feature) => (
+              <li class="flex items-start gap-2.5 text-[0.95rem] brand-ink-soft">
+                <span
+                  class="i-lucide-check brand-text-accent mt-0.5 shrink-0"
+                  aria-hidden="true"
+                ></span>
+                {feature}
+              </li>
+            ))}
+          </ul>
+
+          <a
+            href={waLink(product.ctaMessage)}
+            target="_blank"
+            rel="noopener"
+            class:list={[
+              'ui-btn mt-8 w-full',
+              product.isFeatured ? 'brand-btn' : 'brand-btn-ghost',
+            ]}
+          >
+            {product.ctaLabel}
+          </a>
+        </article>
+      ))}
+    </div>
+
+    <p class="brand-ink-muted mx-auto mt-6 max-w-2xl text-center text-sm">
+      Os dois saem em A1 ou A3, com prazos diferentes. A comparação está logo
+      abaixo.
+    </p>
+  </div>
+</section>

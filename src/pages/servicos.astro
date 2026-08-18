@@ -1,6 +1,7 @@
 ---
 import Layout from '~/layouts/Layout.astro';
 import ContactSection from '~/components/home/ContactSection.astro';
+import CertificadoBand from '~/components/CertificadoBand.astro';
 import { servicesPage, site, pjFront } from '~/config/site';
 
 /*
@@ -101,6 +102,16 @@ import { servicesPage, site, pjFront } from '~/config/site';
                 <dt class="brand-ink text-lg font-semibold">{item.title}</dt>
                 <dd class="brand-ink-soft mt-2 text-[0.95rem] leading-relaxed">
                   {item.text}
+                  {'href' in item && (
+                    <a
+                      href={item.href}
+                      class="brand-link mt-2 flex items-center gap-1.5
+                      text-sm font-semibold"
+                    >
+                      {item.hrefLabel}
+                      <span class="i-lucide-arrow-right" aria-hidden="true"></span>
+                    </a>
+                  )}
                 </dd>
               </div>
             ))}
@@ -132,6 +143,8 @@ import { servicesPage, site, pjFront } from '~/config/site';
       </div>
     </div>
   </section>
+
+  <CertificadoBand />
 
   <ContactSection />
 </Layout>

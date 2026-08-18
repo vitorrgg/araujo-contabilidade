@@ -1,0 +1,51 @@
+---
+import { waLink } from '~/config/site';
+
+/*
+ * Cartão escuro de fechamento. `ctaMessage` pré-preenche a mensagem do
+ * WhatsApp com o contexto da página — quem vem de /certificado-digital já
+ * chega dizendo que quer certificado, e não uma dúvida genérica.
+ */
+export type Props = {
+  title: string;
+  lead: string;
+  ctaLabel: string;
+  ctaMessage?: string;
+  note?: string;
+};
+
+const {
+  title, lead, ctaLabel, ctaMessage, note,
+} = Astro.props;
+---
+
+<section class="brand-surface ui-block">
+  <div class="ui-section">
+    <div
+      class="brand-surface-ink relative overflow-hidden px-7 py-14
+      text-center md:px-12 md:py-16"
+      style="border-radius: calc(var(--brand-radius) * 2)"
+    >
+      <div
+        class="pointer-events-none absolute -right-24 -top-24 size-72
+        rounded-full opacity-20 blur-3xl"
+        style="background-color: var(--brand-accent)"
+        aria-hidden="true"
+      >
+      </div>
+
+      <h2 class="ui-title relative">{title}</h2>
+      <p class="ui-lead relative mx-auto max-w-xl">{lead}</p>
+      <a
+        href={ctaMessage ? waLink(ctaMessage) : waLink()}
+        target="_blank"
+        rel="noopener"
+        class="brand-btn ui-btn-lg relative mt-8"
+      >
+        <span class="i-lucide-message-circle"></span>
+        {ctaLabel}
+      </a>
+      {note && <p class="brand-ink-muted relative mt-4 text-sm">{note}</p>}
+    </div>
+  </div>
+</section>

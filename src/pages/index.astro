@@ -4,6 +4,7 @@ import HomeHero from '~/components/home/HomeHero.astro';
 import Pillars from '~/components/home/Pillars.astro';
 import Differentials from '~/components/home/Differentials.astro';
 import PjFront from '~/components/home/PjFront.astro';
+import CertificadoBand from '~/components/CertificadoBand.astro';
 import ContactSection from '~/components/home/ContactSection.astro';
 import { site } from '~/config/site';
 
@@ -37,6 +38,7 @@ const businessSchema = {
     'Due diligence contábil',
     'Projeções financeiras',
     'Contabilidade para PJ',
+    'Certificado digital e-CPF e e-CNPJ',
   ],
 };
 ---
@@ -52,5 +54,6 @@ const businessSchema = {
   <Pillars />
   <Differentials />
   <PjFront />
+  <CertificadoBand />
   <ContactSection />
 </Layout>

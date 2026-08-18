@@ -51,6 +51,7 @@ export const nav = [
   { label: 'Serviços', href: '/servicos' },
   { label: 'Consultoria', href: '/servicos#consultoria' },
   { label: 'Para PJ', href: '/pj' },
+  { label: 'Certificado digital', href: '/certificado-digital' },
   { label: 'Contato', href: '/#contato' },
 ];
 
@@ -333,8 +334,10 @@ export const servicesPage = {
         },
         {
           title: 'Certificado digital',
-          text: 'Emissão e renovação do e-CNPJ, além das procurações'
-            + ' eletrônicas necessárias no e-CAC.',
+          text: 'Emissão e renovação do e-CPF e do e-CNPJ, com validação por'
+            + ' videoconferência, além das procurações eletrônicas no e-CAC.',
+          href: '/certificado-digital',
+          hrefLabel: 'Ver e-CPF e e-CNPJ',
         },
         {
           title: 'Encerramento e baixa',

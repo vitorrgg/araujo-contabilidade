@@ -1,0 +1,86 @@
+---
+import { certificado } from '~/config/certificado';
+import { waLink } from '~/config/site';
+
+const { hero } = certificado;
+---
+
+<section class="relative overflow-hidden brand-surface">
+  <div
+    class="pointer-events-none absolute -right-32 -top-48 -z-10 size-[42rem]
+    rounded-full opacity-70 blur-3xl brand-surface-soft"
+    aria-hidden="true"
+  >
+  </div>
+
+  <div class="ui-section pb-16 pt-14 md:pb-24 md:pt-20">
+    <div class="grid items-center gap-12 lg:grid-cols-[1.05fr_1fr] lg:gap-16">
+      <div>
+        <p class="brand-eyebrow text-xs sm:text-sm">{hero.eyebrow}</p>
+        <h1 class="ui-title-lg mt-4">
+          {hero.title}
+          <span
+            class="block underline decoration-[3px] underline-offset-[0.14em]"
+            style="text-decoration-color: var(--brand-accent)"
+          >
+            {hero.titleHighlight}
+          </span>
+        </h1>
+        <p class="brand-ink-soft mt-6 max-w-xl text-lg leading-relaxed">
+          {hero.lead}
+        </p>
+
+        <div class="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
+          <a
+            href={waLink(certificado.finalCta.ctaMessage)}
+            target="_blank"
+            rel="noopener"
+            class="brand-btn ui-btn-lg"
+          >
+            <span class="i-lucide-message-circle"></span>
+            Pedir orçamento
+          </a>
+          <a href="#certificados" class="brand-btn-ghost ui-btn-lg">
+            Ver e-CPF e e-CNPJ
+          </a>
+        </div>
+      </div>
+
+      <div class="relative order-first lg:order-none">
+        <!-- Moldura dourada deslocada: o mesmo gesto de marca do hero da home. -->
+        <span
+          class="pointer-events-none absolute -bottom-4 -right-4 hidden size-full
+          border sm:block"
+          style="border-color: var(--brand-accent);
+            border-radius: var(--brand-radius)"
+          aria-hidden="true"
+        ></span>
+        <img
+          src={hero.image}
+          alt={hero.imageAlt}
+          width="1200"
+          height="800"
+          loading="eager"
+          fetchpriority="high"
+          class="relative aspect-[4/3] w-full object-cover lg:aspect-[5/4]"
+          style="border-radius: var(--brand-radius)"
+        />
+      </div>
+    </div>
+
+    <ul
+      class="brand-divider mt-14 grid gap-4 pt-8 text-[0.95rem] brand-ink-soft
+      sm:grid-cols-3"
+    >
+      {hero.proofs.map((proof) => (
+        <li class="flex items-start gap-2.5">
+          <span
+            class="i-lucide-check brand-text-accent mt-0.5 shrink-0"
+            aria-hidden="true"
+          ></span>
+          {proof}
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>

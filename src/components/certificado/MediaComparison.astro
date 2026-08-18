@@ -1,0 +1,55 @@
+---
+import SectionHeading from '~/components/SectionHeading.astro';
+import { certificado } from '~/config/certificado';
+
+const { media } = certificado;
+---
+
+<section id="a1-ou-a3" class="brand-surface-alt ui-block scroll-mt-24">
+  <div class="ui-section">
+    <SectionHeading
+      eyebrow={media.eyebrow}
+      title={media.title}
+      lead={media.lead}
+    />
+
+    <div class="mx-auto mt-12 max-w-4xl overflow-x-auto">
+      <table class="w-full min-w-[40rem] border-collapse text-left">
+        <thead>
+          <tr class="border-b brand-border">
+            <th class="py-4 pr-4 text-sm font-semibold brand-ink-muted">
+              <span class="sr-only">Item comparado</span>
+            </th>
+            {media.columns.map((column) => (
+              <th class="py-4 pr-4 text-sm font-semibold brand-ink">
+                {column}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {media.rows.map(({ label, a1, a3 }) => (
+            <tr class="border-b brand-border last:border-0">
+              <th
+                scope="row"
+                class="py-4 pr-4 align-top text-[0.95rem] font-medium brand-ink"
+              >
+                {label}
+              </th>
+              <td class="py-4 pr-4 align-top text-[0.95rem] brand-ink-soft">
+                {a1}
+              </td>
+              <td class="py-4 pr-4 align-top text-[0.95rem] brand-ink-soft">
+                {a3}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    <p class="brand-ink-muted mx-auto mt-6 max-w-2xl text-center text-sm">
+      {media.note}
+    </p>
+  </div>
+</section>

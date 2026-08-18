@@ -1,19 +1,28 @@
 ---
 import SectionHeading from '~/components/SectionHeading.astro';
-import Faq from '~/components/pj/Faq.vue';
-import { pj } from "~/config/site";
-
-const faq = pj.faq;
+import Faq from '~/components/Faq.vue';
 
 /*
  * O acordeão é uma island Vue, mas as perguntas também vão em JSON-LD:
  * é o que faz a resposta aparecer na busca e ser lida por LLM, que hoje é
  * canal de aquisição tanto quanto o Google.
+ *
+ * Genérico por props: /pj e /certificado-digital usam o mesmo bloco com
+ * conjuntos de perguntas diferentes.
  */
+export type Props = {
+  eyebrow?: string;
+  title: string;
+  items: Array<{ q: string; a: string }>;
+  id?: string;
+};
+
+const { eyebrow, title, items, id = 'duvidas' } = Astro.props;
+
 const faqSchema = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
-  mainEntity: faq.items.map(({ q, a }) => ({
+  mainEntity: items.map(({ q, a }) => ({
     '@type': 'Question',
     name: q,
     acceptedAnswer: { '@type': 'Answer', text: a },
@@ -21,10 +30,10 @@ const faqSchema = {
 };
 ---
 
-<section id="duvidas" class="brand-surface ui-block scroll-mt-24">
+<section id={id} class="brand-surface ui-block scroll-mt-24">
   <div class="ui-section">
-    <SectionHeading eyebrow={faq.eyebrow} title={faq.title} />
-    <Faq client:visible items={faq.items} />
+    <SectionHeading eyebrow={eyebrow} title={title} />
+    <Faq client:visible items={items} />
   </div>
 </section>
 

@@ -38,6 +38,7 @@ npm run deploy     # firebase deploy --only hosting
 | `/` | institucional: hero rotativo, 3 pilares, diferenciais, ponte pro PJ, contato | não |
 | `/servicos` | catálogo completo em 4 frentes, com âncoras `#contabil` `#pessoal` `#legalizacao` `#consultoria` | não |
 | `/pj` | landing de aquisição da frente de PJ: planos, comparativo, FAQ | **sim** |
+| `/certificado-digital` | produto: e-CPF e e-CNPJ, A1 vs A3, como funciona, FAQ | não |
 | `/marca` | manual de identidade visual (`noindex`, fora do sitemap e do robots) | — |
 | `/marca/estudo-logo` | as 3 direções de logo em avaliação, com os testes de tamanho real | — |
 
@@ -120,10 +121,22 @@ uma classe de componente (`.ui-block`). Três consequências práticas:
 
 ### Conteúdo
 
-Toda a copy está em `src/config/site.ts`, não espalhada nos componentes — nesta
+Quase toda a copy está em `src/config/site.ts`, não espalhada nos componentes — nesta
 fase a proposta ainda vai mudar várias vezes, e mudar preço ou promessa não
 deveria exigir mexer em layout. A landing de PJ vive no objeto `pj`, separada
-do institucional.
+do institucional, e o certificado digital tem módulo próprio em
+`src/config/certificado.ts` — é produto, não serviço recorrente, e `site.ts`
+já passava de 600 linhas.
+
+Blocos reaproveitados entre landings vivem na raiz de `src/components/` e são
+dirigidos por props: `FaqSection` (com o JSON-LD de FAQPage junto),
+`StepsSection`, `FinalCta` e `CertificadoBand`. Os que só fazem sentido numa
+landing ficam na pasta dela.
+
+**Ícones precisam de safelist.** Eles são string dentro dos configs, então o
+extrator do UnoCSS não os vê. A lista não é mais mantida à mão — `uno.config.ts`
+varre os configs e recolhe todo `i-lucide-*`. Adicionar um ícone no conteúdo
+basta; a lista manual já custou um ícone faltando na página.
 
 ### Imagens
 
@@ -139,6 +152,12 @@ ativar "gráficos de segundo plano".
 
 ## Pendências antes de publicar
 
+- [ ] **Parceria com a Autoridade Certificadora** — a página de certificado diz
+      "com Autoridade Certificadora credenciada" e nunca que a gccont é uma AC
+      ou AR. Confirmar o credenciamento/parceria antes de publicar
+- [ ] **Preço do certificado** — a página inteira é sem preço, como a
+      referência do setor. Se houver tabela fechada, ela entra em
+      `src/config/certificado.ts`
 - [ ] **Domínio** — `site.domain` / `site.url` assumem `gccont.com.br`;
       confirmar registro (e o `robots.txt`, que aponta pro sitemap nesse domínio)
 - [ ] **CRC e cidade** — `site.crc` está com número fictício no rodapé e no

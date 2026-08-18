@@ -4,12 +4,13 @@ import Hero from '~/components/pj/Hero.astro';
 import PainPoints from '~/components/pj/PainPoints.astro';
 import Audience from '~/components/pj/Audience.astro';
 import Services from '~/components/pj/Services.astro';
-import HowItWorks from '~/components/pj/HowItWorks.astro';
+import StepsSection from '~/components/StepsSection.astro';
 import Plans from '~/components/pj/Plans.astro';
 import Comparison from '~/components/pj/Comparison.astro';
-import FaqSection from '~/components/pj/FaqSection.astro';
-import FinalCta from '~/components/pj/FinalCta.astro';
-import { site } from '~/config/site';
+import FaqSection from '~/components/FaqSection.astro';
+import FinalCta from '~/components/FinalCta.astro';
+import CertificadoBand from '~/components/CertificadoBand.astro';
+import { site, pj } from '~/config/site';
 
 /*
  * Landing de aquisição da frente de PJ — é aqui, e só aqui, que preço aparece.
@@ -31,9 +32,23 @@ import { site } from '~/config/site';
   <PainPoints />
   <Audience />
   <Services />
-  <HowItWorks />
+  <StepsSection
+    eyebrow={pj.howItWorks.eyebrow}
+    title={pj.howItWorks.title}
+    steps={pj.howItWorks.steps}
+  />
   <Plans />
   <Comparison />
-  <FaqSection />
-  <FinalCta />
+  <FaqSection
+    eyebrow={pj.faq.eyebrow}
+    title={pj.faq.title}
+    items={pj.faq.items}
+  />
+  <CertificadoBand />
+  <FinalCta
+    title={pj.finalCta.title}
+    lead={pj.finalCta.lead}
+    ctaLabel={pj.finalCta.ctaLabel}
+    note={pj.finalCta.note}
+  />
 </Layout>

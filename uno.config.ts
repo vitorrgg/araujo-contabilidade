@@ -7,12 +7,26 @@ import {
   transformerVariantGroup,
 } from 'unocss';
 import { palette } from './src/config/brand';
+import * as siteConfig from './src/config/site';
+import { certificado } from './src/config/certificado';
 
 /*
  * As escalas vêm de `src/config/brand.ts` — não redeclare cor aqui.
  * `presetWind3` mantém a sintaxe Tailwind v3 usada no www.e-com.plus,
  * então classe escrita lá funciona aqui sem tradução.
  */
+/** Varre um objeto de configuração e junta todo `i-lucide-*` que encontrar. */
+const collectIcons = (value: unknown, found = new Set<string>()) => {
+  if (typeof value === 'string') {
+    if (value.startsWith('i-lucide-')) found.add(value);
+  } else if (Array.isArray(value)) {
+    value.forEach((item) => collectIcons(item, found));
+  } else if (value && typeof value === 'object') {
+    Object.values(value).forEach((item) => collectIcons(item, found));
+  }
+  return found;
+};
+
 export default defineConfig({
   presets: [
     presetWind3(),
@@ -37,15 +51,11 @@ export default defineConfig({
       display: 'var(--brand-font-display)',
     },
   },
-  // Classes montadas dinamicamente (ícones vindos de src/config/site.ts).
-  safelist: [
-    'i-lucide-clock-alert', 'i-lucide-receipt', 'i-lucide-message-circle-question',
-    'i-lucide-file-plus', 'i-lucide-code-xml', 'i-lucide-palette',
-    'i-lucide-briefcase', 'i-lucide-stethoscope', 'i-lucide-rocket',
-    'i-lucide-repeat', 'i-lucide-file-check', 'i-lucide-calendar-check',
-    'i-lucide-wallet', 'i-lucide-calculator', 'i-lucide-user-check',
-    'i-lucide-message-square-more', 'i-lucide-book-open-check', 'i-lucide-users',
-    'i-lucide-line-chart', 'i-lucide-building-2', 'i-lucide-trending-up',
-    'i-lucide-shield-check',
-  ],
+  /*
+   * Ícones vêm como string dentro dos configs, então o extrator do UnoCSS não
+   * os enxerga — precisam de safelist. Manter a lista à mão já custou um ícone
+   * faltando em produção, então ela é derivada dos próprios configs: adicionar
+   * um `i-lucide-*` no conteúdo passa a bastar.
+   */
+  safelist: [...collectIcons({ ...siteConfig, certificado })],
 });
