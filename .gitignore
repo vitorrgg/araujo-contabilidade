@@ -11,3 +11,6 @@ dist/
 # Material de referência recebido do Gabriel — não versionado pra não
 # distribuir o manual de outra marca junto com este repo.
 Manual de*.pdf
+
+# Fontes baixadas pelo gerador de logos (OFL) — nao versionadas.
+.fonts/

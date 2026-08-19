@@ -28,6 +28,7 @@ npm i
 npm run dev        # http://localhost:4321
 npm run build      # gera dist/
 npm run check      # astro check (types)
+npm run logos      # regenera os arquivos de logo (SVG + PNG + zip)
 npm run deploy     # firebase deploy --only hosting
 ```
 
@@ -91,6 +92,27 @@ emblema quadrado com fio dourado interno e o monograma `gc`, mais o logotipo
 Na versão **negativa** o emblema perde o fundo em vez de virar um selo branco:
 sobre azul-marinho isso mantém o dourado em 5,6:1 e é bem mais elegante que um
 retângulo branco chapado. A **monocromática** é a que abre mão do dourado.
+
+#### Arquivos distribuíveis
+
+`Logo.astro` resolve o site, mas não serve pra quem precisa do **arquivo** —
+designer, gráfica, quem monta um post. `npm run logos` roda
+`scripts/gerar-logos.ts`, que produz 12 versões em SVG e PNG (mais um `.zip`)
+em `public/marca/logos/`, servidas e listadas para download em `/marca#arquivos`.
+
+O ponto crítico: **o texto sai convertido em contorno**. Um SVG com texto vivo
+abre com fonte errada em qualquer máquina sem Playfair Display instalada — o que
+é justamente a máquina de quem recebe o arquivo. O script baixa as instâncias
+estáticas da fonte (OFL) para `.fonts/`, fora do versionamento, e converte os
+glifos com `opentype.js`. A variável não serve: o opentype.js só enxerga o
+master padrão dela, e o logotipo precisa de 700 e 400 de verdade.
+
+O catálogo dos arquivos vive em `src/config/logos.ts` e é lido pelos **dois**
+lados — o gerador e a área de download do manual. A página não tem como
+oferecer um arquivo que o script não produz. Para acrescentar uma variação,
+edite a lista e rode `npm run logos`.
+
+Cores vêm de `brand.ts`: mudou a paleta, rode de novo e os 12 saem atualizados.
 
 ### Camadas de CSS
 

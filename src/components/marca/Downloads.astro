@@ -1,0 +1,129 @@
+---
+import {
+  logoFiles, logoGrupos, logosBase, logosZip, type ArquivoLogo,
+} from '~/config/logos';
+
+/* A altura do preview muda com a composição: a vertical é quase o dobro de
+ * alta que a horizontal, e os arquivos com fundo chapado trazem margem
+ * própria — numa altura única todos os três apareceriam em tamanhos
+ * diferentes do que realmente são. */
+const alturaPreview = (arquivo: ArquivoLogo) => {
+  if (arquivo.composicao === 'vertical') return 'h-28';
+  if (arquivo.composicao === 'icone') return 'h-20';
+  return arquivo.fundo ? 'h-20' : 'h-14';
+};
+
+/*
+ * Área de download dos arquivos de marca.
+ *
+ * A lista vem de `src/config/logos.ts`, a mesma que `scripts/gerar-logos.ts`
+ * consome — não existe link aqui pra arquivo que o gerador não produz.
+ *
+ * O preview é o próprio SVG entregue, sobre a superfície que a variação exige:
+ * mostrar um logo negativo sobre branco esconderia justamente o que ele resolve.
+ */
+---
+
+<div>
+  <div
+    class="manual-keep brand-surface-ink flex flex-col items-start gap-5 p-7
+    md:flex-row md:items-center md:justify-between"
+    style="border-radius: var(--brand-radius)"
+  >
+    <div>
+      <p class="brand-display text-xl font-bold text-white">
+        Todos os arquivos em um .zip
+      </p>
+      <p class="brand-ink-soft mt-1.5 text-[0.95rem]">
+        {logoFiles.length} versões em SVG e PNG. É o que você manda pra gráfica,
+        pra agência ou pra quem pedir "a logo".
+      </p>
+    </div>
+    <a href={logosZip} download class="brand-btn ui-btn shrink-0 print-hidden">
+      <span class="i-lucide-download" aria-hidden="true"></span>
+      Baixar tudo
+    </a>
+  </div>
+
+  {logoGrupos.map(({ titulo, composicao }) => (
+    <section class="mt-12">
+      <h3 class="brand-ink text-lg font-semibold">{titulo}</h3>
+      <div class="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {logoFiles
+          .filter((arquivo) => arquivo.composicao === composicao)
+          .map((arquivo) => (
+            <article class="manual-keep brand-card flex flex-col overflow-hidden">
+              <div
+                class:list={[
+                  'flex items-center justify-center p-8',
+                  arquivo.preview === 'escuro' && 'brand-surface-ink',
+                ]}
+                style={arquivo.preview === 'claro'
+                  ? 'background-color: var(--brand-surface-alt)'
+                  : undefined}
+              >
+                <img
+                  src={`${logosBase}/${arquivo.nome}.svg`}
+                  alt={arquivo.rotulo}
+                  loading="lazy"
+                  class:list={['w-full object-contain', alturaPreview(arquivo)]}
+                />
+              </div>
+              <div class="flex flex-1 flex-col border-t brand-border p-5">
+                <h4 class="brand-ink font-semibold">{arquivo.rotulo}</h4>
+                <p class="brand-ink-soft mt-1.5 flex-1 text-sm leading-relaxed">
+                  {arquivo.uso}
+                </p>
+                <div class="print-hidden mt-4 flex gap-2">
+                  <a
+                    href={`${logosBase}/${arquivo.nome}.svg`}
+                    download
+                    class="brand-btn-ghost ui-btn-sm flex-1"
+                  >
+                    SVG
+                  </a>
+                  <a
+                    href={`${logosBase}/${arquivo.nome}.png`}
+                    download
+                    class="brand-btn-ghost ui-btn-sm flex-1"
+                  >
+                    PNG
+                  </a>
+                </div>
+                <p class="brand-ink-muted mt-3 font-mono text-[0.7rem]">
+                  {arquivo.nome} · PNG {arquivo.larguraPng}px
+                  {arquivo.fundo ? ' · fundo chapado' : ' · fundo transparente'}
+                </p>
+              </div>
+            </article>
+          ))}
+      </div>
+    </section>
+  ))}
+
+  <div
+    class="manual-keep brand-surface-soft mt-12 p-6"
+    style="border-radius: var(--brand-radius)"
+  >
+    <h3 class="brand-ink font-semibold">Qual arquivo mandar</h3>
+    <ul class="brand-ink-soft mt-3 space-y-2 text-[0.95rem] leading-relaxed">
+      <li>
+        <strong class="brand-ink">SVG sempre que puder.</strong>{' '}
+        É vetor: amplia sem perder qualidade e é o que gráfica e designer pedem.
+        O texto já está convertido em contorno, então abre igual em qualquer
+        máquina, com ou sem a Playfair Display instalada.
+      </li>
+      <li>
+        <strong class="brand-ink">PNG só quando o SVG não é aceito.</strong>{' '}
+        Redes sociais, algumas plataformas de anúncio e editores antigos. Se
+        precisar maior que o arquivo entregue, peça a regeração — não amplie o
+        PNG.
+      </li>
+      <li>
+        <strong class="brand-ink">Fundo transparente é o padrão.</strong>{' '}
+        As versões com fundo chapado existem para quando você não controla onde
+        o arquivo vai cair.
+      </li>
+    </ul>
+  </div>
+</div>

@@ -8,6 +8,7 @@
     "start": "astro dev --host",
     "build": "astro build",
     "check": "astro check",
+    "logos": "node scripts/gerar-logos.ts",
     "preview": "astro preview",
     "astro": "astro",
     "deploy": "firebase deploy --only hosting"
@@ -27,6 +28,9 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
+    "@resvg/resvg-js": "^2.6.2",
+    "jszip": "^3.10.1",
+    "opentype.js": "^2.0.0",
     "typescript": "^5.9.3"
   }
 }

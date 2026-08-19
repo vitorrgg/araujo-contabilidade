@@ -6,6 +6,7 @@ import ColorSwatch from '~/components/marca/ColorSwatch.astro';
 import LogoVariant from '~/components/marca/LogoVariant.astro';
 import MisuseGrid from '~/components/marca/MisuseGrid.astro';
 import Applications from '~/components/marca/Applications.astro';
+import Downloads from '~/components/marca/Downloads.astro';
 import ManualToolbar from '~/components/marca/ManualToolbar.astro';
 import '~/assets/print.css';
 import { site } from '~/config/site';
@@ -430,6 +431,16 @@ const functionalUse = [
     surface="alt"
   >
     <Applications />
+  </ManualSection>
+
+  <!-- 10 · Arquivos -->
+  <ManualSection
+    index="09"
+    title="Arquivos da marca"
+    lead="A assinatura em SVG e PNG, nas quatro variações, com e sem fundo. Todos gerados a partir dos mesmos tokens desta página — se a marca mudar, estes arquivos mudam junto."
+    id="arquivos"
+  >
+    <Downloads />
   </ManualSection>
 
   <!-- 10 · Fechamento -->
