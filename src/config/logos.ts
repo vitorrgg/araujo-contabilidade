@@ -11,7 +11,7 @@
  */
 
 /** Como o desenho é composto. */
-export type Composicao = 'horizontal' | 'vertical' | 'icone';
+export type Composicao = 'horizontal' | 'vertical' | 'icone' | 'monograma';
 
 /** Qual jogo de cores. Espelha as 4 variações do manual. */
 export type Variante = 'cor' | 'negativa' | 'mono-escura' | 'mono-branca';
@@ -111,6 +111,36 @@ export const logoFiles: ArquivoLogo[] = [
     larguraPng: 800,
   },
   {
+    nome: 'gccont-monograma-dourado',
+    rotulo: 'Monograma dourado',
+    uso: 'O “gc” solto, sem o quadrado. Sobre azul-marinho ou foto escura.',
+    composicao: 'monograma',
+    variante: 'cor',
+    fundo: null,
+    preview: 'escuro',
+    larguraPng: 512,
+  },
+  {
+    nome: 'gccont-monograma-marinho',
+    rotulo: 'Monograma azul-marinho',
+    uso: 'Uma cor sobre fundo claro: marca d’água, gravação, carimbo.',
+    composicao: 'monograma',
+    variante: 'mono-escura',
+    fundo: null,
+    preview: 'claro',
+    larguraPng: 512,
+  },
+  {
+    nome: 'gccont-monograma-branco',
+    rotulo: 'Monograma branco',
+    uso: 'Uma cor sobre fundo escuro ou imagem.',
+    composicao: 'monograma',
+    variante: 'mono-branca',
+    fundo: null,
+    preview: 'escuro',
+    larguraPng: 512,
+  },
+  {
     nome: 'gccont-icone-cor',
     rotulo: 'Ícone colorido',
     uso: 'Avatar de rede social, favicon e selo. Tem fundo próprio.',
@@ -160,5 +190,6 @@ export const logosZip = `${logosBase}/gccont-logos.zip`;
 export const logoGrupos: Array<{ titulo: string; composicao: Composicao }> = [
   { titulo: 'Assinatura horizontal', composicao: 'horizontal' },
   { titulo: 'Assinatura vertical', composicao: 'vertical' },
-  { titulo: 'Ícone', composicao: 'icone' },
+  { titulo: 'Ícone (emblema quadrado)', composicao: 'icone' },
+  { titulo: 'Monograma solto', composicao: 'monograma' },
 ];

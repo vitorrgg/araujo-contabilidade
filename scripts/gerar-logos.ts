@@ -8,7 +8,7 @@
  * com **o texto convertido em contorno**, então o arquivo abre igual em qualquer
  * máquina, com ou sem a fonte instalada.
  *
- * Mudou a paleta em `brand.ts`? Rode de novo e os 12 arquivos saem atualizados.
+ * Mudou a paleta em `brand.ts`? Rode de novo e todos os arquivos saem atualizados.
  *
  * A fonte fica em `.fonts/` (fora do versionamento, ver .gitignore) e é baixada
  * pelo próprio script quando falta — Playfair Display é OFL, então distribuir o
@@ -181,6 +181,31 @@ const assinaturaVertical = (v: Variante, fundo?: string) => {
 
 const icone = (v: Variante) => svg(E, E, emblema(v));
 
+/*
+ * O monograma solto: só o "gc", sem o quadrado e sem o fio.
+ *
+ * A caixa do SVG abraça o desenho (sem respiro), porque quem usa a marca solta
+ * quer controlar o espaçamento por conta. E a cor NÃO vem de `Variante.marca`:
+ * lá o "gc" é o que aparece dentro do quadrado, então na monocromática escura
+ * ele é branco. Solto sobre fundo claro, tem que ser azul-marinho.
+ */
+const COR_MONOGRAMA: Record<string, string> = {
+  cor: dourado,
+  negativa: dourado,
+  'mono-escura': ink,
+  'mono-branca': branco,
+};
+
+const monogramaSolto = (variante: string) => {
+  const cor = COR_MONOGRAMA[variante] ?? ink;
+  const conteudo = `${mover(monograma.d, -monograma.x1, -monograma.y1)} fill="${cor}"/>`;
+  return svg(
+    Number(monograma.largura.toFixed(3)),
+    Number(monograma.altura.toFixed(3)),
+    conteudo,
+  );
+};
+
 /* --- o catálogo ----------------------------------------------------------
  * A lista de arquivos vem de `src/config/logos.ts`, a mesma que a área de
  * download do manual consome — a página não tem como oferecer um arquivo que
@@ -191,6 +216,7 @@ const FUNDOS = { branco, marinho: ink } as const;
 const desenhar = (arquivo: (typeof logoFiles)[number]) => {
   const v = VARIANTES[arquivo.variante as NomeVariante]!;
   const fundo = arquivo.fundo ? FUNDOS[arquivo.fundo] : undefined;
+  if (arquivo.composicao === 'monograma') return monogramaSolto(arquivo.variante);
   if (arquivo.composicao === 'icone') return icone(v);
   if (arquivo.composicao === 'vertical') return assinaturaVertical(v, fundo);
   return assinaturaHorizontal(v, fundo);

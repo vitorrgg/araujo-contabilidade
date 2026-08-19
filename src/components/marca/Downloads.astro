@@ -10,6 +10,7 @@ import {
 const alturaPreview = (arquivo: ArquivoLogo) => {
   if (arquivo.composicao === 'vertical') return 'h-28';
   if (arquivo.composicao === 'icone') return 'h-20';
+  if (arquivo.composicao === 'monograma') return 'h-16';
   return arquivo.fundo ? 'h-20' : 'h-14';
 };
 
