@@ -29,6 +29,7 @@ npm run dev        # http://localhost:4321
 npm run build      # gera dist/
 npm run check      # astro check (types)
 npm run logos      # regenera os arquivos de logo (SVG + PNG + zip)
+npm run posts      # renderiza os carrosséis de Instagram (`-- <slug>` para um só)
 npm run deploy     # firebase deploy --only hosting
 ```
 
@@ -167,6 +168,53 @@ Fotógrafos e onde cada uma é usada estão em [CREDITS.md](CREDITS.md) — **at
 essa tabela ao trocar uma foto**. Só contribuidores regulares: nada de
 Unsplash+/Getty, que são licença paga.
 
+### Os posts de Instagram
+
+`posts/<slug>/brief.md` descreve um carrossel em markdown — um `## Slide N` por
+slide, cada um com um bloco yaml. `npm run posts` renderiza tudo em
+`output/<slug>/slide-N.png`, 1080×1350, pronto pra subir.
+
+```
+posts/GUIA.md            linha editorial: voz, públicos, pilares e o que não se publica
+posts/<slug>/brief.md    os slides
+posts/<slug>/legenda.md  a legenda do Instagram (não entra na imagem)
+scripts/gerar-posts.ts   lê o brief, confere e escreve os PNG
+scripts/posts/tokens.ts  escala e papéis de cor do formato, derivados de brand.ts
+scripts/posts/slides.ts  os seis tipos de slide, como árvore Satori
+output/<slug>/           o que vai pro Instagram
+```
+
+Renderização por [Satori](https://github.com/vercel/satori) + resvg: dois
+pacotes npm, sem Chromium e sem fonte instalada na máquina.
+
+O ponto da coisa é o mesmo do gerador de logos — **a identidade é código**. As
+cores e a tipografia do post saem de `src/config/brand.ts`, o logo vem dos
+arquivos que `npm run logos` produz (os mesmos que `/marca#arquivos` distribui
+"pra quem monta um post"), e o rodapé do fechamento lê contato e perfil de
+`src/config/site.ts`. Trocou a paleta? `npm run posts` republica a série inteira
+coerente. Não existe post desalinhado do manual, porque não existe um segundo
+lugar onde a marca esteja escrita.
+
+Escolhas de formato — e o porquê, que é o que não dá pra deduzir olhando o PNG:
+
+- **Fundo branco é o padrão.** No manual, branco é o fundo de toda a comunicação
+  e o azul-marinho é superfície de destaque. Capa, número e fechamento saem
+  escuros porque são os momentos de peso; o miolo é claro.
+- **O dourado nunca vira texto corrido.** Ele entra como fio, moldura e
+  numeração — e é por isso que existe numeração de slide.
+- **Contraste é aplicado, não confiado.** Sobre claro o dourado cai pro
+  `accent-strong` (o 500 tem 2,8:1 sobre branco); sobre azul-marinho volta pro
+  500. O botão do fechamento inverte pra branco, igual à regra do
+  `.brand-surface-ink .brand-btn` no site.
+- **O render confere antes de escrever**: capa no começo e fechamento no fim,
+  `gccont` sempre minúsculo, foto declarada no `CREDITS.md`, legenda presente,
+  número de slides. Nenhuma delas quebra o render — todas viram aviso, menos as
+  que produziriam um arquivo errado.
+
+Antes de escrever qualquer post, leia [posts/GUIA.md](posts/GUIA.md): é lá que
+estão os públicos, os pilares e os limites (nada de dado de cliente, nada de
+promessa de resultado, preço só o que já está publicado em `/pj`).
+
 ## Gerar o PDF do manual
 
 Abrir `/marca` → botão "Salvar em PDF" (ou Ctrl/Cmd+P) → orientação paisagem →
@@ -207,5 +255,8 @@ ativar "gráficos de segundo plano".
 ## Próximos passos previstos
 
 - Coleção de conteúdo em MDX (`@astrojs/mdx` já está instalado) para artigos de
-  SEO — canal de aquisição discutido junto com o Instagram.
+  SEO — canal de aquisição discutido junto com o Instagram. O artigo e o
+  carrossel tendem a nascer do mesmo assunto; vale reaproveitar o `brief.md`.
 - Página/rota por anúncio, se a rotação do hero não der conta de segmentar.
+- Formato 1080×1080 e story 1080×1920 no gerador de posts, se o feed pedir. Hoje
+  só existe o 4:5, que é o carrossel.
