@@ -11,8 +11,8 @@
  * Mudou a paleta em `brand.ts`? Rode de novo e todos os arquivos saem atualizados.
  *
  * A fonte fica em `.fonts/` (fora do versionamento, ver .gitignore) e é baixada
- * pelo próprio script quando falta — Playfair Display é OFL, então distribuir o
- * contorno dentro do logo é permitido.
+ * na primeira execução por `scripts/lib/fontes.ts` — Playfair Display é OFL,
+ * então distribuir o contorno dentro do logo é permitido.
  */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -22,36 +22,15 @@ import { Resvg } from '@resvg/resvg-js';
 import JSZip from 'jszip';
 import { palette, tokens } from '../src/config/brand.ts';
 import { logoFiles, type Variante as NomeVariante } from '../src/config/logos.ts';
+import { arquivoFonte } from './lib/fontes.ts';
 
 const raiz = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const destino = path.join(raiz, 'public/marca/logos');
-const pastaFontes = path.join(raiz, '.fonts');
 
-/* Instâncias estáticas da Playfair Display no Google Fonts. A variável não
- * serve: o opentype.js só enxerga o master padrão dela, e o logotipo precisa
- * de 700 e 400 de verdade. */
-const FONTES = {
-  700: {
-    arquivo: 'PlayfairDisplay-Bold.ttf',
-    url: 'https://fonts.gstatic.com/s/playfairdisplay/v40/nuFvD-vYSZviVYUb_rj3ij__anPXJzDwcbmjWBN2PKeiukDQ.ttf',
-  },
-  400: {
-    arquivo: 'PlayfairDisplay-Regular.ttf',
-    url: 'https://fonts.gstatic.com/s/playfairdisplay/v40/nuFvD-vYSZviVYUb_rj3ij__anPXJzDwcbmjWBN2PKdFvUDQ.ttf',
-  },
-};
-
+/* O download e o cache em `.fonts/` moram em `scripts/lib/fontes.ts`, que o
+ * gerador de posts também usa — uma lista de URLs só, para as duas famílias. */
 const carregarFonte = async (peso: 400 | 700) => {
-  const { arquivo, url } = FONTES[peso];
-  const caminho = path.join(pastaFontes, arquivo);
-  if (!fs.existsSync(caminho)) {
-    fs.mkdirSync(pastaFontes, { recursive: true });
-    const resposta = await fetch(url);
-    if (!resposta.ok) throw new Error(`Falha ao baixar ${arquivo}: ${resposta.status}`);
-    fs.writeFileSync(caminho, Buffer.from(await resposta.arrayBuffer()));
-    console.log(`  baixei ${arquivo}`);
-  }
-  const buffer = fs.readFileSync(caminho);
+  const buffer = await arquivoFonte(peso === 700 ? 'playfair-700' : 'playfair-400');
   return opentype.parse(
     buffer.buffer.slice(buffer.byteOffset, buffer.byteOffset + buffer.byteLength),
   );
@@ -101,6 +80,9 @@ const RAIO_EXTERNO = 16;
 const RECUO_FIO = 7.5;
 const RAIO_INTERNO = 10;
 const CORPO_MONOGRAMA = 46;
+/* Solto sobre um quadrado o monograma pode crescer: não divide o espaço
+ * com o fio dourado, como acontece dentro do emblema. */
+const CORPO_MONOGRAMA_SOLTO = 58;
 const TRACKING_MONOGRAMA = -0.03;
 const CORPO_LOGOTIPO = 50;
 const TRACKING_LOGOTIPO = -0.015;
@@ -125,6 +107,11 @@ const VARIANTES: Record<string, Variante> = {
 };
 
 const monograma = traçar([{ texto: 'gc', peso: 700 }], CORPO_MONOGRAMA, TRACKING_MONOGRAMA);
+const monogramaGrande = traçar(
+  [{ texto: 'gc', peso: 700 }],
+  CORPO_MONOGRAMA_SOLTO,
+  TRACKING_MONOGRAMA,
+);
 const logotipo = traçar(
   [{ texto: 'gc', peso: 700 }, { texto: 'cont', peso: 400 }],
   CORPO_LOGOTIPO,
@@ -196,8 +183,19 @@ const COR_MONOGRAMA: Record<string, string> = {
   'mono-branca': branco,
 };
 
-const monogramaSolto = (variante: string) => {
+const monogramaSolto = (variante: string, fundo?: string) => {
   const cor = COR_MONOGRAMA[variante] ?? ink;
+
+  // Com fundo, a tela vira quadrada: é o formato que avatar, favicon e selo
+  // esperam, e uma caixa justa com cor chapada ficaria colada nas letras.
+  if (fundo) {
+    const dx = (E - monogramaGrande.largura) / 2 - monogramaGrande.x1;
+    const dy = (E - monogramaGrande.altura) / 2 - monogramaGrande.y1;
+    const conteudo = `<rect width="${E}" height="${E}" rx="${RAIO_EXTERNO}" fill="${fundo}"/>`
+      + `${mover(monogramaGrande.d, dx, dy)} fill="${cor}"/>`;
+    return svg(E, E, conteudo);
+  }
+
   const conteudo = `${mover(monograma.d, -monograma.x1, -monograma.y1)} fill="${cor}"/>`;
   return svg(
     Number(monograma.largura.toFixed(3)),
@@ -216,7 +214,7 @@ const FUNDOS = { branco, marinho: ink } as const;
 const desenhar = (arquivo: (typeof logoFiles)[number]) => {
   const v = VARIANTES[arquivo.variante as NomeVariante]!;
   const fundo = arquivo.fundo ? FUNDOS[arquivo.fundo] : undefined;
-  if (arquivo.composicao === 'monograma') return monogramaSolto(arquivo.variante);
+  if (arquivo.composicao === 'monograma') return monogramaSolto(arquivo.variante, fundo);
   if (arquivo.composicao === 'icone') return icone(v);
   if (arquivo.composicao === 'vertical') return assinaturaVertical(v, fundo);
   return assinaturaHorizontal(v, fundo);

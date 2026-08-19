@@ -97,7 +97,7 @@ retângulo branco chapado. A **monocromática** é a que abre mão do dourado.
 
 `Logo.astro` resolve o site, mas não serve pra quem precisa do **arquivo** —
 designer, gráfica, quem monta um post. `npm run logos` roda
-`scripts/gerar-logos.ts`, que produz 15 versões em SVG e PNG (mais um `.zip`)
+`scripts/gerar-logos.ts`, que produz 18 versões em SVG e PNG (mais um `.zip`)
 em `public/marca/logos/`, servidas e listadas para download em `/marca#arquivos`.
 
 O ponto crítico: **o texto sai convertido em contorno**. Um SVG com texto vivo
