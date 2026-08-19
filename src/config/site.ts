@@ -33,7 +33,7 @@ export const site = {
   /** E.164 para `tel:` e schema.org; `phoneDisplay` é o que aparece na tela. */
   phone: '+5531996306851',
   phoneDisplay: '(31) 99630-6851',
-  instagram: 'https://instagram.com/gccont',
+  instagram: 'https://www.instagram.com/gccontcontabilidade/',
 };
 
 export const whatsapp = {

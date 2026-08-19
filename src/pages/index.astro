@@ -26,6 +26,8 @@ const businessSchema = {
   email: site.email,
   telephone: site.phone,
   areaServed: 'BR',
+  // Liga o perfil do Instagram à entidade da empresa nos resultados de busca.
+  sameAs: [site.instagram],
   address: {
     '@type': 'PostalAddress',
     addressLocality: site.city,
